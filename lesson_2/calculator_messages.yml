@@ -1,0 +1,18 @@
+en:
+  welcome: Bleep Bloop Welcome to CLI Calculator! Enter your name
+  valid_name: Make sure to use a valid name.
+  first_number: What's the first number?
+  second_number: What's the second number?
+  check_number: Hmm...that doens't look like a valid number
+  please_choose: Please choose 1 2 3 or 4
+  play_again: Do you want to perform another calculation? (Y to calculate again)
+  good_bye: Thanks for using the CLI calculator!
+es:
+  welcome: Bleep Bloop Bienvenue sur CLI Calculator ! Entrez votre nom
+  valid_name: Assurez-vous d'utiliser un nom valide .
+  first_number: Quel est le premier numéro ?
+  second_number: Quel est le deuxième numéro ?
+  check_number: Hmm ... que doens't ressemblent à un numéro valide
+  please_choose: S'il vous plaît choisir 1 2 3 ou 4
+  play_again: Voulez-vous d'effectuer un autre calcul ? ( Y pour calculer à nouveau )
+  good_bye: écheveaux pour l'utilisation de la calculatrice de CLI !

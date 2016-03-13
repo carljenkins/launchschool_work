@@ -1,0 +1,56 @@
+1. a method that returns the sum of two integers.
+casual:
+  Given two numbers
+  add the numbers together
+  return the result
+
+formal:
+
+  START
+    #Given two numbers
+    SET result = number1 + number2
+    return result
+  END
+
+2. a method that takes an array of strings, and returns a string that is all those strings concatenated together
+
+casual:
+  Given an array of strings
+  concatenate each string together and assign the result to a variable
+  return the variable.
+
+
+
+formal:
+  START
+    #Given an array of strings
+    for each string in array
+    msg.concat(string)
+
+      return msg
+  END
+
+
+3. a method that takes an array of integers, and returns a new array with every other element
+
+casual:
+  Given an array of integers
+  create a new array that contains every other integer from the array
+  then return the new array
+
+  a = [1,2,3,4,5]
+  x = []
+  a.each_with_index do |e,i|
+    x << e if(i % 2 == 0)
+  end
+  p x
+
+formal:
+
+  START
+    #Given an array of integers
+    SET iterator = 1
+    while iterator < array.length
+    new_array << element if(current_index % 2 == 0)
+
+  END

@@ -1,0 +1,10 @@
+en:
+  welcome: Thanks for using the car payment calculator! What's your name?
+  valid_name: Please enter a valid name.
+  request_loan_amt: What is the loan amount?
+  apr: What is the APR?
+  duration: What is the duration of the loan in years?
+  check_number: That doesn't appear to be a valid number? Please try again.
+  monthly_payment: Your montly payment will be
+
+es:
