@@ -71,15 +71,38 @@ def computer_places_piece!(brd)
   brd[square] = COMPUTER_MARKER
 end
 
-def computer_anticipate_next_move(brd)
-  next_move = -1
-  WINNING_LINES.each do |spaces|
-    if brd.values_at(*spaces).count(PLAYER_MARKER) == 2
-        hsh = brd.select{|key,value|  [spaces[0], spaces[1], spaces[2]].include?(key)}
-        next_move = hsh.key(INITIAL_MARKER)
+def get_anticipated_move(spaces, brd)
+  hsh = brd.select{ | key,value|  [spaces[0], spaces[1], spaces[2]].include?(key)}
+  hsh.key(INITIAL_MARKER)
+end
+
+def find_offensive_move(brd)
+  offensive_move = nil
+  WINNING_LINES.each do | spaces |
+    if brd.values_at(*spaces).count(COMPUTER_MARKER) == 2
+        offensive_move =  get_anticipated_move(spaces,brd)
     end
   end
-  next_move
+  offensive_move
+end
+
+def find_defensive_move(brd)
+  defesive_move = -1
+  WINNING_LINES.each do | spaces |
+    if brd.values_at(*spaces).count(PLAYER_MARKER) == 2
+        defesive_move =  get_anticipated_move(spaces,brd)
+    end
+  end
+  defesive_move
+end
+
+def computer_anticipate_next_move(brd)
+  next_move = find_offensive_move(brd)
+  return next_move if !!next_move
+
+  next_move = find_defensive_move(brd)
+  return next_move if !!next_move
+
 end
 
 def board_full?(brd)
