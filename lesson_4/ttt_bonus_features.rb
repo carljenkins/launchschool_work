@@ -63,7 +63,7 @@ end
 
 def computer_places_piece!(brd)
   next_move = computer_anticipate_next_move(brd)
-  if brd.has_key?(next_move)
+  if !brd.has_key?(next_move)
     square = empty_squares(brd).sample
   else
     square = next_move
