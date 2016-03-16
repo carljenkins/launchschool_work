@@ -62,8 +62,24 @@ def player_places_piece!(brd)
 end
 
 def computer_places_piece!(brd)
-  square = empty_squares(brd).sample
+  next_move = computer_anticipate_next_move(brd)
+  if brd.has_key?(next_move)
+    square = empty_squares(brd).sample
+  else
+    square = next_move
+  end
   brd[square] = COMPUTER_MARKER
+end
+
+def computer_anticipate_next_move(brd)
+  next_move = -1
+  WINNING_LINES.each do |spaces|
+    if brd.values_at(*spaces).count(PLAYER_MARKER) == 2
+        hsh = brd.select{|key,value|  [spaces[0], spaces[1], spaces[2]].include?(key)}
+        next_move = hsh.key(INITIAL_MARKER)
+    end
+  end
+  next_move
 end
 
 def board_full?(brd)
