@@ -16,8 +16,28 @@ def joinor(arr, sep = ', ', orclause='or ')
 end
 
 def display_score(scores)
-  puts "  == Current Score==\nYou: #{scores[:player]}       Computer: #{scores[:computer]}"
+  puts "    == Current Score==   "
+  puts "You: #{scores[:player]} Computer: #{scores[:computer]} Draws: #{:draw}"
   puts
+end
+
+def display_round_winner(board, scores)
+  max_value = scores.values.max #largest value
+  winning_pair = board.select { |key,value| value == max_value}
+  if winning_pair.key(max_value) == :draw
+    prompt "It's a draw!"
+  elsif winning_pair.key(max_value) == :player
+    prompt "You win!"
+  else
+    prompt "I won this round!"
+  end
+end
+
+def start_next_round(board, scores)
+  prompt "Starting next round..."
+  sleep 4
+  display_board(board)
+  display_score(scores)
 end
 
 # rubocop:disable Metrics/AbcSize
@@ -189,18 +209,15 @@ loop do
     place_marker!(board, scores)
     update_score!(scores, board)
     display_board(board)
+    sleep 3
 
     break if score_limit_reached?(scores)
-    display_board(board) if !score_limit_reached?(scores)
-    display_score(scores) if !score_limit_reached?(scores)
+    display_round_winner(board,scores)
+    start_next_round(board,scores)
   end
 
   prompt "#{get_winner(scores)} won!"
   break unless request_new_game.downcase.start_with?('y')
-
-  prompt "Starting next round..."
-  sleep 4
-
 end
 
 prompt "Thanks for playing Tic Tac Toe! See ya."
