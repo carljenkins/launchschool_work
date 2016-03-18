@@ -1,10 +1,10 @@
 require 'pry'
 WINNING_LINES = [[1, 2, 3], [4, 5, 6], [7, 8, 9]] +
-                [[1, 4, 7], [2, 5, 8], [3, 6, 9]] +
-                [[1, 5, 9], [3, 5, 7]].freeze
+    [[1, 4, 7], [2, 5, 8], [3, 6, 9]] +
+    [[1, 5, 9], [3, 5, 7]].freeze
 
-INITIAL_MARKER  = ' '.freeze
-PLAYER_MARKER   = 'X'.freeze
+INITIAL_MARKER = ' '.freeze
+PLAYER_MARKER = 'X'.freeze
 COMPUTER_MARKER = 'O'.freeze
 
 def prompt(msg)
@@ -22,7 +22,7 @@ end
 
 # rubocop:disable Metrics/AbcSize
 def display_board(brd)
-  system 'clear'
+  system 'clear' or system 'cls'
   puts "You're a #{PLAYER_MARKER}. Computer is a #{COMPUTER_MARKER}"
   puts ""
   puts "     |     |     "
@@ -46,8 +46,36 @@ def initialize_board
   new_board
 end
 
+def find_empty_board_position(brd, pos)
+  brd.select do |key, value|
+    [pos].include?(key) && value == INITIAL_MARKER
+  end.key(INITIAL_MARKER)
+end
+
 def empty_squares(brd)
   brd.keys.select { |num| brd[num] == INITIAL_MARKER }
+end
+
+def place_marker!(brd, scores)
+  loop do
+    display_board(brd)
+    display_score(scores)
+    if current_player?(brd) == :player
+      player_places_piece!(brd)
+    else
+      sleep 3 #thinking....
+      computer_places_piece!(brd)
+    end
+    break if end_of_round?(brd)
+  end
+end
+
+def current_player?(brd)
+  brd.values.count(" ").odd? ? :player : :computer
+end
+
+def end_of_round?(brd)
+  someone_won?(brd) || board_full?(brd)
 end
 
 def player_places_piece!(brd)
@@ -64,7 +92,12 @@ end
 def computer_places_piece!(brd)
   next_move = computer_anticipate_next_move(brd)
   if !brd.has_key?(next_move)
-    square = empty_squares(brd).sample
+    square_5 = find_empty_board_position(brd, 5)
+    if square_5
+      square = square_5
+    else
+      square = empty_squares(brd).sample
+    end
   else
     square = next_move
   end
@@ -72,28 +105,26 @@ def computer_places_piece!(brd)
 end
 
 def get_anticipated_move(spaces, brd)
-  hsh = brd.select{ | key,value|  [spaces[0], spaces[1], spaces[2]].include?(key)}
+  hsh = brd.select { |key, value| [spaces[0], spaces[1], spaces[2]].include?(key) }
   hsh.key(INITIAL_MARKER)
 end
 
 def find_offensive_move(brd)
-  offensive_move = nil
-  WINNING_LINES.each do | spaces |
-    if brd.values_at(*spaces).count(COMPUTER_MARKER) == 2
-        offensive_move =  get_anticipated_move(spaces,brd)
-    end
-  end
-  offensive_move
+  calculate_move(brd, COMPUTER_MARKER)
 end
 
 def find_defensive_move(brd)
-  defesive_move = -1
-  WINNING_LINES.each do | spaces |
-    if brd.values_at(*spaces).count(PLAYER_MARKER) == 2
-        defesive_move =  get_anticipated_move(spaces,brd)
+  calculate_move(brd, PLAYER_MARKER)
+end
+
+def calculate_move(brd, marker)
+  move = nil
+  WINNING_LINES.each do |spaces|
+    if brd.values_at(*spaces).count(marker) == 2
+      move = get_anticipated_move(spaces, brd)
     end
   end
-  defesive_move
+  move
 end
 
 def computer_anticipate_next_move(brd)
@@ -114,15 +145,15 @@ def someone_won?(brd)
 end
 
 def get_winner(scores)
-  scores.key(5).to_s.capitalize
+  scores.key(1).to_s.capitalize
 end
 
 def detect_winner(brd)
   WINNING_LINES.each do |line|
     if brd.values_at(*line).count(PLAYER_MARKER) == 3
-      return 'Player'
+      return :player
     elsif brd.values_at(*line).count(COMPUTER_MARKER) == 3
-      return 'Computer'
+      return :computer
     end
   end
   nil
@@ -134,42 +165,46 @@ def request_new_game
 end
 
 def score_limit_reached?(scores)
-  scores.value?(5)
+  scores.value?(1)
 end
 
-def update_score(scores, brd)
-  key = detect_winner(brd)
-  scores[key.downcase.to_sym] += 1 if key
+# def game_over?(scores)
+#   scores[:player] == 5 || scores[:computer] == 5
+# end
+
+def update_score!(scores, brd)
+  if detect_winner(brd) == :player
+    scores[:player] += 1
+  elsif detect_winner(brd) == :computer
+    scores[:computer] += 1
+  else
+    scores[:draw] += 1
+  end
+
 end
 
-scores = {player: 0, computer: 0}
+scores = {player: 0, computer: 0, draw: 0}
 
 loop do
-  board = initialize_board
 
   loop do
-    display_board(board)
-    display_score(scores)
+    board = initialize_board
+    place_marker!(board, scores)
+    update_score!(scores, board)
 
-    player_places_piece!(board)
-    update_score(scores, board) if someone_won?(board)
-    break if someone_won?(board) || board_full?(board)
+    display_board(board) if score_limit_reached?(scores)
+    break if score_limit_reached?(scores)
+    display_board(board) if !score_limit_reached?(scores)
+    display_score(scores) if !score_limit_reached?(scores)
 
-    computer_places_piece!(board)
-    update_score(scores, board) if someone_won?(board)
-    break if someone_won?(board) || board_full?(board)
   end
-  display_board(board)
-  display_score(scores)
 
 
-  if score_limit_reached?(scores)
-    prompt "#{get_winner(scores)} won!"
-    break unless request_new_game.downcase.start_with?('y')
-  else
-    prompt "Starting next round..."
-    sleep 3
-  end
+  prompt "#{get_winner(scores)} won!"
+  break unless request_new_game.downcase.start_with?('y')
+
+  prompt "Starting next round..."
+  sleep 4
 
 end
 
