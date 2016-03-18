@@ -145,7 +145,7 @@ def someone_won?(brd)
 end
 
 def get_winner(scores)
-  scores.key(1).to_s.capitalize
+  scores.key(5).to_s.capitalize
 end
 
 def detect_winner(brd)
@@ -165,12 +165,8 @@ def request_new_game
 end
 
 def score_limit_reached?(scores)
-  scores.value?(1)
+  scores.value?(5)
 end
-
-# def game_over?(scores)
-#   scores[:player] == 5 || scores[:computer] == 5
-# end
 
 def update_score!(scores, brd)
   if detect_winner(brd) == :player
@@ -189,16 +185,15 @@ loop do
 
   loop do
     board = initialize_board
+
     place_marker!(board, scores)
     update_score!(scores, board)
+    display_board(board)
 
-    display_board(board) if score_limit_reached?(scores)
     break if score_limit_reached?(scores)
     display_board(board) if !score_limit_reached?(scores)
     display_score(scores) if !score_limit_reached?(scores)
-
   end
-
 
   prompt "#{get_winner(scores)} won!"
   break unless request_new_game.downcase.start_with?('y')
