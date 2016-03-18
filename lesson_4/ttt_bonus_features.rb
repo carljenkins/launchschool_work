@@ -17,7 +17,7 @@ end
 
 def display_score(scores)
   puts "    == Current Score==   "
-  puts "You: #{scores[:player]} Computer: #{scores[:computer]} Draws: #{:draw}"
+  puts "You: #{scores[:player]} Computer: #{scores[:computer]} Draws: #{scores[:draw]}"
   puts
 end
 
