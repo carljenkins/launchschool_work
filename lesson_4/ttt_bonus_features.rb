@@ -194,7 +194,7 @@ def update_score!(scores, brd)
   elsif detect_winner(brd) == :computer
     scores[:computer] += 1
   else
-    scores[:draw] += 1
+    scores[:draw] += 1 if !someone_won?(brd) && board_full?(brd)
   end
 
 end
