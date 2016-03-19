@@ -22,12 +22,11 @@ def display_score(scores)
 end
 
 def display_round_winner(board, scores)
-  max_value = scores.values.max #largest value
-  winning_pair = board.select { |key,value| value == max_value}
-  if winning_pair.key(max_value) == :draw
+  round_winner = detect_winner(board)
+  if !round_winner
     prompt "It's a draw!"
-  elsif winning_pair.key(max_value) == :player
-    prompt "You win!"
+  elsif round_winner == :player
+    prompt "You win this round!"
   else
     prompt "I won this round!"
   end
@@ -83,7 +82,7 @@ def place_marker!(brd, scores)
     if current_player?(brd) == :player
       player_places_piece!(brd)
     else
-      sleep 3 #thinking....
+      sleep 2 #thinking....
       computer_places_piece!(brd)
     end
     break if end_of_round?(brd)
@@ -209,11 +208,12 @@ loop do
     place_marker!(board, scores)
     update_score!(scores, board)
     display_board(board)
-    sleep 3
+
 
     break if score_limit_reached?(scores)
     display_round_winner(board,scores)
     start_next_round(board,scores)
+    sleep 3
   end
 
   prompt "#{get_winner(scores)} won!"
