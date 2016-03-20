@@ -1,7 +1,7 @@
 require 'yaml'
 require 'pry'
 
-SUITS = %w[Hearts, Diamonds, Spades, Clubs].freeze
+SUITS = %w[Hearts Diamonds Spades Clubs].freeze
 CARD_VALUES = %w[2 3 4 5 6 7 8 9 10 Jack King Queen Ace].freeze
 
 LANGUAGE = 'en'
@@ -23,7 +23,7 @@ def calculate_cards(hand)
       sum += value.to_i
     when %w[Jack Queen King].include?(value)
       sum += 10
-      else
+    else
         0
     end
   end
