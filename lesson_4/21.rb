@@ -10,6 +10,7 @@ HIT = 'h'
 STAY = 's'
 PLAYER = 'Player'
 DEALER = 'Dealer'
+DRAW = 'Draw'
 
 LANGUAGE = 'en'
 MESSAGES = YAML.load_file('21_messages.yml')
@@ -52,64 +53,105 @@ end
 
 
 def display_welcome
-  system 'clear' or system 'cls'
+  clear_screen
   puts messages("welcome")
   sleep 1
-  system 'clear' or system 'cls'
+  clear_screen
 end
 
+def clear_screen
+  system 'clear' or system 'cls'
+end
 
 
 def start_game(deck, score_card)
   player_hand = deal!(deck)
   dealer_hand = deal!(deck)
 
-  display_player_hand(player_hand)
-  display_dealer_hand(dealer_hand, masked = true)
+  player_stash = {}
+  player_stash[PLAYER] = player_hand
+  player_stash[DEALER] = dealer_hand
 
-  track_score!(score_card)
+  display_hands(player_stash)
+  track_score!(score_card, player_stash)
 
   loop do #players turn
     break if game_over?(player_hand) || game_over?(dealer_hand)
     response = request_user_hit_or_stay
 
     if response == HIT
+      clear_screen
       player_hand << deal!(deck, 1).fetch(0)
+      track_score!(score_card, player_stash)
 
-      display_player_hand(player_hand)
-      display_dealer_hand(dealer_hand)
+      display_hands(player_stash)
 
       break if game_over?(player_hand)
-
     end
-    break if response.downcase == STAY || busted?(player_hand)
+    break if response.downcase == STAY
   end
 
-
   loop do
+    clear_screen
     break if game_over?(player_hand) || game_over?(dealer_hand)
     if calculate_cards(dealer_hand) < 17
-     dealer_hand << deal!(deck, 1).fetch(0)
+      dealer_hand << deal!(deck, 1).fetch(0)
+      track_score!(score_card, player_stash)
 
-     display_player_hand(player_hand)
-     display_dealer_hand(dealer_hand)
-
-     break if game_over?(dealer_hand)
+      display_hands(player_stash)
+      break if game_over?(dealer_hand)
+    else
+      break
    end
   end #end dealer loop
 
+  score_card[:draw] = DRAW if draw?(player_hand, dealer_hand)
+  game_result = get_results(score_card)
 
+  if game_result.empty?
+    score_card[:winner] = get_winner(player_hand, dealer_hand)
+    game_result = get_results(score_card)
+  end
 
-
+  announce_game_status(game_result[0].upcase, game_result[1].to_s.capitalize)
 end #end method
 
-def announce_game_status(game_status, player)
 
+def get_results(score_card)
+  result =
+  score_card.select do | key, value |
+    value == PLAYER || value == DEALER || value == DRAW
+  end.flatten
+
+  result
+end
+
+def track_score!(score_card, hand_stash)
+  hand_stash.each do | key, hand|
+    if game_over?(hand)
+      score_card[check_game_status(hand).to_s.downcase] = key
+    end
+  end
+  score_card
+end
+
+def display_hands(stash)
+  stash.each do | key, value |
+    display_dealer_hand(value, modified = true) if key == DEALER
+    display_player_hand(value) if key == PLAYER
+  end
+end
+
+
+def announce_game_status(game_status, player)
   if game_status == :BUSTED
     puts "#{player}  busted!"
   end
   if game_status == :WINNER
     puts "#{player} won!"
+  end
+  if game_status == :DRAW
+    puts "It's a draw!"
   end
 end
 
@@ -147,6 +189,14 @@ def busted?(hand)
   calculate_cards(hand) > TWENTY_ONE
 end
 
+def draw?(hand_a, hand_b)
+  compare_hands(hand_a, hand_b) == 0
+end
+
+def get_winner(hand_a, hand_b)
+  return PLAYER if compare_hands(hand_a, hand_b) == 2
+  return DEALER if compare_hands(hand_a, hand_b) == -1
+end
 
 def deal!(deck, cards = 2)
   hand = []
