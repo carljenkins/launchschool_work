@@ -15,7 +15,6 @@ DRAW = 'Draw'
 LANGUAGE = 'en'
 MESSAGES = YAML.load_file('21_messages.yml')
 
-
 def messages(message, lang='en')
   MESSAGES[lang][message]
 end
@@ -51,7 +50,6 @@ def calculate_aces(hand, current_sum)
   current_sum
 end
 
-
 def display_welcome
   clear_screen
   puts messages("welcome")
@@ -62,7 +60,6 @@ end
 def clear_screen
   system 'clear' or system 'cls'
 end
-
 
 def start_game(deck, score_card)
   player_hand = deal!(deck)
@@ -75,35 +72,30 @@ def start_game(deck, score_card)
   display_hands(player_stash)
   track_score!(score_card, player_stash)
 
-  loop do #players turn
+  loop do
     break if game_over?(player_hand) || game_over?(dealer_hand)
     response = request_user_hit_or_stay
-
     if response == HIT
-      clear_screen
       player_hand << deal!(deck, 1).fetch(0)
       track_score!(score_card, player_stash)
-
       display_hands(player_stash)
-
       break if game_over?(player_hand)
     end
     break if response.downcase == STAY
   end
 
   loop do
-    clear_screen
     break if game_over?(player_hand) || game_over?(dealer_hand)
     if calculate_cards(dealer_hand) < 17
       dealer_hand << deal!(deck, 1).fetch(0)
       track_score!(score_card, player_stash)
-
       display_hands(player_stash)
       break if game_over?(dealer_hand)
+      sleep 3
     else
       break
    end
-  end #end dealer loop
+  end
 
   score_card[:draw] = DRAW if draw?(player_hand, dealer_hand)
   game_result = get_results(score_card)
@@ -112,24 +104,24 @@ def start_game(deck, score_card)
     score_card[:winner] = get_winner(player_hand, dealer_hand)
     game_result = get_results(score_card)
   end
-
+  
   announce_game_status(game_result[0].upcase, game_result[1].to_s.capitalize)
+  sleep 4
 end #end method
 
 
 def get_results(score_card)
   result =
   score_card.select do | key, value |
-    value == PLAYER || value == DEALER || value == DRAW
+    value != EMPTY
   end.flatten
-
   result
 end
 
 def track_score!(score_card, hand_stash)
   hand_stash.each do | key, hand|
     if game_over?(hand)
-      score_card[check_game_status(hand).to_s.downcase] = key
+      score_card[check_game_status(hand).to_sym.downcase] = key
     end
   end
   score_card
@@ -141,7 +133,6 @@ def display_hands(stash)
     display_player_hand(value) if key == PLAYER
   end
 end
-
 
 def announce_game_status(game_status, player)
   if game_status == :BUSTED
@@ -206,7 +197,6 @@ def deal!(deck, cards = 2)
   hand
 end
 
-
 def display_player_hand(hand)
   display_hand(hand, "Player")
 end
@@ -240,18 +230,16 @@ def request_user_hit_or_stay
   input
 end
 
-
-deck = initialize_deck(SUITS, CARD_VALUES)
-
-score_card = {busted: EMPTY, winner: EMPTY, draw: EMPTY}
-display_welcome
-start_game(deck, score_card)
-
 loop do
-  puts "Would you like to play again (y/n)?"
+  deck = initialize_deck(SUITS, CARD_VALUES)
+
+  score_card = {busted: EMPTY, winner: EMPTY, draw: EMPTY}
+  display_welcome
+  start_game(deck, score_card)
+
+  puts messages("play_again")
   input = gets.chomp
-  break if input.downcase.start_with?('n')
-  puts "Hmm. that doesn't seem right."
+  break unless input.downcase.start_with?('y')
 end
 
-puts "Thanks for playing!"
+puts messages("thanks_for_playing")
