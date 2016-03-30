@@ -1,5 +1,5 @@
 en:
-  welcome: Welcome and thanks for playing 21.
+  welcome: Welcome and thanks for playing 21
   hit_or_stay: Would you like to hit or stay (h/s)?
   invalid_hit_stay: Hmm. that doesn't appear to be a correct entry.
   play_again: Would you like to play again (y/n)?

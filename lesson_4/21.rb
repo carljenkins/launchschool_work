@@ -15,6 +15,34 @@ DRAW = 'Draw'
 LANGUAGE = 'en'
 MESSAGES = YAML.load_file('21_messages.yml')
 
+
+
+class String
+def black;          "\e[30m#{self}\e[0m" end
+def red;            "\e[31m#{self}\e[0m" end
+def green;          "\e[32m#{self}\e[0m" end
+def brown;          "\e[33m#{self}\e[0m" end
+def blue;           "\e[34m#{self}\e[0m" end
+def magenta;        "\e[35m#{self}\e[0m" end
+def cyan;           "\e[36m#{self}\e[0m" end
+def gray;           "\e[37m#{self}\e[0m" end
+
+def bg_black;       "\e[40m#{self}\e[0m" end
+def bg_red;         "\e[41m#{self}\e[0m" end
+def bg_green;       "\e[42m#{self}\e[0m" end
+def bg_brown;       "\e[43m#{self}\e[0m" end
+def bg_blue;        "\e[44m#{self}\e[0m" end
+def bg_magenta;     "\e[45m#{self}\e[0m" end
+def bg_cyan;        "\e[46m#{self}\e[0m" end
+def bg_gray;        "\e[47m#{self}\e[0m" end
+
+def bold;           "\e[1m#{self}\e[22m" end
+def italic;         "\e[3m#{self}\e[23m" end
+def underline;      "\e[4m#{self}\e[24m" end
+def blink;          "\e[5m#{self}\e[25m" end
+def reverse_color;  "\e[7m#{self}\e[27m" end
+end
+
 def messages(message, lang='en')
   MESSAGES[lang][message]
 end
@@ -52,8 +80,10 @@ end
 
 def display_welcome
   clear_screen
-  puts messages("welcome")
-  sleep 1
+  print " \u2660 \u2665 \u2666 \u2663  "
+  print messages("welcome").red
+  print " \u2660 \u2665 \u2666 \u2663 "
+  sleep 3
   clear_screen
 end
 
@@ -78,6 +108,7 @@ def start_game(deck, score_card)
     if response == HIT
       player_hand << deal!(deck, 1).fetch(0)
       track_score!(score_card, player_stash)
+      clear_screen
       display_hands(player_stash)
       break if game_over?(player_hand)
     end
@@ -89,6 +120,7 @@ def start_game(deck, score_card)
     if calculate_cards(dealer_hand) < 17
       dealer_hand << deal!(deck, 1).fetch(0)
       track_score!(score_card, player_stash)
+      clear_screen
       display_hands(player_stash)
       break if game_over?(dealer_hand)
       sleep 3
@@ -104,10 +136,18 @@ def start_game(deck, score_card)
     score_card[:winner] = get_winner(player_hand, dealer_hand)
     game_result = get_results(score_card)
   end
-  
+  display_scores(player_stash)
   announce_game_status(game_result[0].upcase, game_result[1].to_s.capitalize)
-  sleep 4
-end #end method
+  sleep 3
+end
+
+def display_scores(hand_stash)
+  print "Score: "
+  hand_stash.each do | key, value |
+    print "Player: #{calculate_cards(value)} " if key == PLAYER
+    puts " Dealer: #{calculate_cards(value)}" if key == DEALER
+  end
+end
 
 
 def get_results(score_card)
@@ -136,13 +176,13 @@ end
 
 def announce_game_status(game_status, player)
   if game_status == :BUSTED
-    puts "#{player}  busted!"
+    puts "#{player} busted!".red
   end
   if game_status == :WINNER
-    puts "#{player} won!"
+    puts "#{player} won!".green
   end
   if game_status == :DRAW
-    puts "It's a draw!"
+    puts "It's a draw!".cyan
   end
 end
 
@@ -215,7 +255,7 @@ def display_hand(hand, player)
     puts sprintf("%20s", "#{card[1]} of #{card[0]}")
   end
   puts
-  puts sprintf("%18s", "Total: #{calculate_cards(hand)}") if player != 'Dealer'
+  puts  sprintf("%18s", "Total: #{calculate_cards(hand)}") if player != 'Dealer'
   puts
 end
 
@@ -230,9 +270,10 @@ def request_user_hit_or_stay
   input
 end
 
+
+
 loop do
   deck = initialize_deck(SUITS, CARD_VALUES)
-
   score_card = {busted: EMPTY, winner: EMPTY, draw: EMPTY}
   display_welcome
   start_game(deck, score_card)
