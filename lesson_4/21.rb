@@ -1,19 +1,17 @@
 require 'yaml'
-require 'pry'
 
 SUITS = %w[Hearts Diamonds Spades Clubs].freeze
 GLYPHS = ["\u2665", "\u2666", "\u2660", "\u2663"].freeze
 CARD_VALUES = %w[2 3 4 5 6 7 8 9 10 Jack King Queen Ace].freeze
 TWENTY_ONE = 21.freeze
+EMPTY = ''.freeze
+HIT = 'h'.freeze
+STAY = 's'.freeze
+PLAYER = 'Player'.freeze
+DEALER = 'Dealer'.freeze
+DRAW = 'Draw'.freeze
 
-EMPTY = ''
-HIT = 'h'
-STAY = 's'
-PLAYER = 'Player'
-DEALER = 'Dealer'
-DRAW = 'Draw'
-
-LANGUAGE = 'en'
+LANGUAGE = 'en'.freeze
 MESSAGES = YAML.load_file('21_messages.yml')
 
 class String
