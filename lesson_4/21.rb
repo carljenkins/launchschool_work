@@ -15,8 +15,6 @@ DRAW = 'Draw'
 LANGUAGE = 'en'
 MESSAGES = YAML.load_file('21_messages.yml')
 
-
-
 class String
 def black;          "\e[30m#{self}\e[0m" end
 def red;            "\e[31m#{self}\e[0m" end
@@ -65,7 +63,7 @@ def calculate_cards(hand)
   sum = calculate_aces(hand, sum)
   sum
 end
-# [["Hearts", "Ace"],["Clubs", "3"],["Diamonds", "King"],["Spades", "Ace"]]
+
 def calculate_aces(hand, current_sum)
   hand.each do |card|
     if card.include?("Ace")
@@ -148,7 +146,6 @@ def display_scores(hand_stash)
     puts " Dealer: #{calculate_cards(value)}" if key == DEALER
   end
 end
-
 
 def get_results(score_card)
   result =
@@ -269,8 +266,6 @@ def request_user_hit_or_stay
   end
   input
 end
-
-
 
 loop do
   deck = initialize_deck(SUITS, CARD_VALUES)
