@@ -117,8 +117,9 @@ def start_game(deck, score_card)
 
         clear_screen
         display_hands(player_stash)
+        sleep 1
         break if busted?(dealer_hand)
-        sleep 3
+
       else
         break
        end
