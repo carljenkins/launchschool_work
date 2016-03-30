@@ -4,3 +4,6 @@ en:
   invalid_hit_stay: Hmm. that doesn't appear to be a correct entry.
   play_again: Would you like to play again (y/n)?
   thanks_for_playing: Thanks for playing, please come back soon.
+  game_end_draw: It's a draw!
+  game_end_won: won!
+  game_end_busted: busted!

@@ -2,6 +2,7 @@ require 'yaml'
 require 'pry'
 
 SUITS = %w[Hearts Diamonds Spades Clubs].freeze
+GLYPHS = ["\u2665", "\u2666", "\u2660", "\u2663"].freeze
 CARD_VALUES = %w[2 3 4 5 6 7 8 9 10 Jack King Queen Ace].freeze
 TWENTY_ONE = 21.freeze
 
@@ -16,29 +17,29 @@ LANGUAGE = 'en'
 MESSAGES = YAML.load_file('21_messages.yml')
 
 class String
-def black;          "\e[30m#{self}\e[0m" end
-def red;            "\e[31m#{self}\e[0m" end
-def green;          "\e[32m#{self}\e[0m" end
-def brown;          "\e[33m#{self}\e[0m" end
-def blue;           "\e[34m#{self}\e[0m" end
-def magenta;        "\e[35m#{self}\e[0m" end
-def cyan;           "\e[36m#{self}\e[0m" end
-def gray;           "\e[37m#{self}\e[0m" end
+  def black;          "\e[30m#{self}\e[0m" end
+  def red;            "\e[31m#{self}\e[0m" end
+  def green;          "\e[32m#{self}\e[0m" end
+  def brown;          "\e[33m#{self}\e[0m" end
+  def blue;           "\e[34m#{self}\e[0m" end
+  def magenta;        "\e[35m#{self}\e[0m" end
+  def cyan;           "\e[36m#{self}\e[0m" end
+  def gray;           "\e[37m#{self}\e[0m" end
 
-def bg_black;       "\e[40m#{self}\e[0m" end
-def bg_red;         "\e[41m#{self}\e[0m" end
-def bg_green;       "\e[42m#{self}\e[0m" end
-def bg_brown;       "\e[43m#{self}\e[0m" end
-def bg_blue;        "\e[44m#{self}\e[0m" end
-def bg_magenta;     "\e[45m#{self}\e[0m" end
-def bg_cyan;        "\e[46m#{self}\e[0m" end
-def bg_gray;        "\e[47m#{self}\e[0m" end
+  def bg_black;       "\e[40m#{self}\e[0m" end
+  def bg_red;         "\e[41m#{self}\e[0m" end
+  def bg_green;       "\e[42m#{self}\e[0m" end
+  def bg_brown;       "\e[43m#{self}\e[0m" end
+  def bg_blue;        "\e[44m#{self}\e[0m" end
+  def bg_magenta;     "\e[45m#{self}\e[0m" end
+  def bg_cyan;        "\e[46m#{self}\e[0m" end
+  def bg_gray;        "\e[47m#{self}\e[0m" end
 
-def bold;           "\e[1m#{self}\e[22m" end
-def italic;         "\e[3m#{self}\e[23m" end
-def underline;      "\e[4m#{self}\e[24m" end
-def blink;          "\e[5m#{self}\e[25m" end
-def reverse_color;  "\e[7m#{self}\e[27m" end
+  def bold;           "\e[1m#{self}\e[22m" end
+  def italic;         "\e[3m#{self}\e[23m" end
+  def underline;      "\e[4m#{self}\e[24m" end
+  def blink;          "\e[5m#{self}\e[25m" end
+  def reverse_color;  "\e[7m#{self}\e[27m" end
 end
 
 def messages(message, lang='en')
@@ -98,45 +99,48 @@ def start_game(deck, score_card)
   player_stash[DEALER] = dealer_hand
 
   display_hands(player_stash)
-  track_score!(score_card, player_stash)
 
-  loop do
-    break if game_over?(player_hand) || game_over?(dealer_hand)
-    response = request_user_hit_or_stay
-    if response == HIT
-      player_hand << deal!(deck, 1).fetch(0)
-      track_score!(score_card, player_stash)
-      clear_screen
-      display_hands(player_stash)
-      break if game_over?(player_hand)
+  if !busted?(player_hand) || !busted(dealer_hand)
+    loop do
+      response = request_user_hit_or_stay
+      if response == HIT
+        player_hand << deal!(deck, 1).fetch(0)
+
+        clear_screen
+        display_hands(player_stash)
+      end
+      break if response.downcase == STAY || busted?(player_hand)
     end
-    break if response.downcase == STAY
+
+    loop do
+      break if busted?(player_hand) || busted?(dealer_hand)
+      if calculate_cards(dealer_hand) < 17
+        dealer_hand << deal!(deck, 1).fetch(0)
+
+        clear_screen
+        display_hands(player_stash)
+        break if busted?(dealer_hand)
+        sleep 3
+      else
+        break
+       end
+      end
   end
 
-  loop do
-    break if game_over?(player_hand) || game_over?(dealer_hand)
-    if calculate_cards(dealer_hand) < 17
-      dealer_hand << deal!(deck, 1).fetch(0)
-      track_score!(score_card, player_stash)
-      clear_screen
-      display_hands(player_stash)
-      break if game_over?(dealer_hand)
-      sleep 3
-    else
-      break
-   end
-  end
-
-  score_card[:draw] = DRAW if draw?(player_hand, dealer_hand)
+  update_score_card(score_card, player_hand, dealer_hand)
   game_result = get_results(score_card)
-
-  if game_result.empty?
-    score_card[:winner] = get_winner(player_hand, dealer_hand)
-    game_result = get_results(score_card)
-  end
   display_scores(player_stash)
   announce_game_status(game_result[0].upcase, game_result[1].to_s.capitalize)
   sleep 3
+end
+
+def update_score_card(score_card, player_hand, dealer_hand)
+  score_card[:draw] = DRAW if draw?(player_hand, dealer_hand)
+  score_card[:busted] = DEALER if busted?(dealer_hand)
+  score_card[:busted] = PLAYER if busted?(player_hand)
+  if score_card.values.count(EMPTY) == 3
+    score_card[:winner] = get_winner(player_hand, dealer_hand)
+  end
 end
 
 def display_scores(hand_stash)
@@ -155,15 +159,6 @@ def get_results(score_card)
   result
 end
 
-def track_score!(score_card, hand_stash)
-  hand_stash.each do | key, hand|
-    if game_over?(hand)
-      score_card[check_game_status(hand).to_sym.downcase] = key
-    end
-  end
-  score_card
-end
-
 def display_hands(stash)
   stash.each do | key, value |
     display_dealer_hand(value, modified = true) if key == DEALER
@@ -173,28 +168,14 @@ end
 
 def announce_game_status(game_status, player)
   if game_status == :BUSTED
-    puts "#{player} busted!".red
+    puts "#{player} #{messages('game_end_busted')}".red
   end
   if game_status == :WINNER
-    puts "#{player} won!".green
+    puts "#{player} #{messages('game_end_won')}".green
   end
   if game_status == :DRAW
-    puts "It's a draw!".cyan
+    puts messages("game_end_draw").cyan
   end
-end
-
-def check_game_status(hand)
-  if twenty_one?(hand)
-    return :WINNER
-  elsif busted?(hand)
-    return :BUSTED
-  end
-  nil
-end
-
-def game_over?(hand)
-  check_game_status(hand) == :WINNER ||
-  check_game_status(hand) == :BUSTED
 end
 
 def compare_hands(hand_a, hand_b)
@@ -207,10 +188,6 @@ def compare_hands(hand_a, hand_b)
      # they are equal
   end
   result
-end
-
-def twenty_one?(hand)
-    calculate_cards(hand) == TWENTY_ONE
 end
 
 def busted?(hand)
@@ -245,11 +222,16 @@ def display_dealer_hand(hand, masked = false)
   display_hand(hand, "Dealer")
 end
 
+def get_glyph(type)
+  return type if type == 'x'
+  GLYPHS[SUITS.index(type)]
+end
+
 def display_hand(hand, player)
   puts sprintf("%20s", "#{player} Hand")
   puts '     ---------------------'
   hand.each do |card|
-    puts sprintf("%20s", "#{card[1]} of #{card[0]}")
+    puts sprintf("%20s", "#{card[1]} of #{ get_glyph(card[0])}'s")
   end
   puts
   puts  sprintf("%18s", "Total: #{calculate_cards(hand)}") if player != 'Dealer'
