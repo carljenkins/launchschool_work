@@ -246,7 +246,7 @@ def display_hand(hand, player)
   puts format("%20s", "#{player} Hand")
   puts '     ---------------------'
   hand.each do |card|
-  puts format("%20s", "#{card[1]} of #{get_glyph(card[0])}'s")
+    puts format("%20s", "#{card[1]} of #{get_glyph(card[0])}'s")
   end
   puts
   puts format("%18s", "Total: #{calculate_cards(hand)}") if player != 'Dealer'
@@ -274,7 +274,6 @@ def play_again?
   end
 end
 
-
 def start_next_round
   puts "Starting next round..."
   sleep 5
@@ -290,9 +289,9 @@ def score_limit_reached(round_score)
   round_score.value?(5)
 end
 
-#Main game loop
+# Main game loop
 loop do
-  round_score = {player: 0, dealer: 0, draws: 0}
+  round_score = { player: 0, dealer: 0, draws: 0 }
   loop do
     deck = initialize_deck(SUITS, CARD_VALUES)
     score_card = { busted: EMPTY, winner: EMPTY, draw: EMPTY }
