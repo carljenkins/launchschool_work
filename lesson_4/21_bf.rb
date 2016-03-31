@@ -100,9 +100,7 @@ def handle_player_turn(deck, player_stash)
   loop do
     response = request_user_hit_or_stay
     if response == HIT
-
       player_hand << deal!(deck, 1).fetch(0)
-
       clear_screen
       display_hands(player_stash, modified_hand = true)
     end
@@ -140,7 +138,6 @@ def play_game(deck, score_card, round_score)
     handle_player_turn(deck, player_stash)
     handle_dealer_turn(deck, player_stash)
   end
-
   display_round_info(player_stash)
   update_score_card(score_card, player_stash, round_score)
   game_result = get_results(score_card)
