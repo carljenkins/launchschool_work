@@ -100,7 +100,9 @@ def handle_player_turn(deck, player_stash)
   loop do
     response = request_user_hit_or_stay
     if response == HIT
+
       player_hand << deal!(deck, 1).fetch(0)
+
       clear_screen
       display_hands(player_stash, modified_hand = true)
     end
@@ -139,19 +141,22 @@ def play_game(deck, score_card, round_score)
     handle_dealer_turn(deck, player_stash)
   end
 
-  clear_screen
-  display_hands(player_stash, modified_hand = false)
+  display_round_info(player_stash)
   update_score_card(score_card, player_stash, round_score)
   game_result = get_results(score_card)
-  display_scores(player_stash)
   announce_game_status(game_result[0].upcase, game_result[1].to_s.capitalize)
   sleep 3
+end
+
+def display_round_info(stash)
+  clear_screen
+  display_hands(stash, modified_hand = false)
+  display_scores(stash)
 end
 
 def update_score_card(score_card, player_stash, round_score)
   player_hand = player_stash[PLAYER]
   dealer_hand = player_stash[DEALER]
-
   if draw?(player_hand, dealer_hand)
     score_card[:draw] = DRAW
     round_score[:draws] += 1
@@ -244,7 +249,7 @@ def display_hand(hand, player)
   puts format("%20s", "#{player} Hand")
   puts '     ---------------------'
   hand.each do |card|
-    puts format("%20s", "#{card[1]} of #{get_glyph(card[0])}'s")
+  puts format("%20s", "#{card[1]} of #{get_glyph(card[0])}'s")
   end
   puts
   puts format("%18s", "Total: #{calculate_cards(hand)}") if player != 'Dealer'
@@ -276,12 +281,11 @@ end
 def start_next_round
   puts "Starting next round..."
   sleep 5
-
 end
 
 def display_round_scores(scores)
   puts "    == Round Scores==   "
-  puts "You: #{scores[:player]} Dealer: #{scores[:dealer]} Draws: #{scores[:draw]}"
+  puts "You: #{scores[:player]} Dealer: #{scores[:dealer]} Draws: #{scores[:draws]}"
   puts
 end
 
@@ -292,9 +296,9 @@ end
 #Main game loop
 loop do
   round_score = {player: 0, dealer: 0, draws: 0}
-  deck = initialize_deck(SUITS, CARD_VALUES)
-  score_card = { busted: EMPTY, winner: EMPTY, draw: EMPTY }
   loop do
+    deck = initialize_deck(SUITS, CARD_VALUES)
+    score_card = { busted: EMPTY, winner: EMPTY, draw: EMPTY }
     display_welcome
     play_game(deck, score_card, round_score)
 
