@@ -7,3 +7,4 @@ en:
   game_end_draw: It's a draw!
   game_end_won: won!
   game_end_busted: busted!
+  incorrect_quit_command: Hmm...that doesn't seem right. Please enter either y or n.

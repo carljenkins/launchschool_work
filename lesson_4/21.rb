@@ -1,15 +1,20 @@
 require 'yaml'
 
-SUITS = %w[Hearts Diamonds Spades Clubs].freeze
+SUITS = %w(Hearts Diamonds Spades Clubs).freeze
+CARD_VALUES = %w(2 3 4 5 6 7 8 9 10 Jack King Queen Ace).freeze
 GLYPHS = ["\u2665", "\u2666", "\u2660", "\u2663"].freeze
-CARD_VALUES = %w[2 3 4 5 6 7 8 9 10 Jack King Queen Ace].freeze
-TWENTY_ONE = 21.freeze
-EMPTY = ''.freeze
-HIT = 'h'.freeze
-STAY = 's'.freeze
-PLAYER = 'Player'.freeze
-DEALER = 'Dealer'.freeze
-DRAW = 'Draw'.freeze
+SPADE = "\u2660"
+HEART = "\u2665"
+DIAMOND = "\u2666"
+CLUB = "\u2663"
+GAME_LIMIT = 21
+DEALER_LIMIT = 17
+EMPTY = ''
+HIT = 'h'
+STAY = 's'
+PLAYER = 'Player'
+DEALER = 'Dealer'
+DRAW = 'Draw'
 
 LANGUAGE = 'en'.freeze
 MESSAGES = YAML.load_file('21_messages.yml')
@@ -53,23 +58,24 @@ def calculate_cards(hand)
   hand.each do |card|
     value = card[1]
     case value
-      when ("2".."10")
-        sum += value.to_i
-      when /King|Queen|Jack/
-        sum += 10
+    when ("2".."10")
+      sum += value.to_i
+    when /King|Queen|Jack/
+      sum += 10
     end
   end
   sum = calculate_aces(hand, sum)
-  sum
 end
 
 def calculate_aces(hand, current_sum)
   hand.each do |card|
     if card.include?("Ace")
       current_sum += 11
-      if current_sum > 21
+      if current_sum > GAME_LIMIT
         current_sum -= 10
       end
+    else
+      next
     end
   end
   current_sum
@@ -77,26 +83,30 @@ end
 
 def display_welcome
   clear_screen
-  print " \u2660 \u2665 \u2666 \u2663  "
+  print " #{SPADE} #{HEART} #{DIAMOND} #{CLUB} "
   print messages("welcome").red
-  print " \u2660 \u2665 \u2666 \u2663 "
+  print " #{SPADE} #{HEART} #{DIAMOND} #{CLUB} "
   sleep 3
   clear_screen
 end
 
 def clear_screen
-  system 'clear' or system 'cls'
+  system 'clear'
 end
 
-def start_game(deck, score_card)
+def play_game(deck, score_card)
+  modified_hand = true
   player_hand = deal!(deck)
   dealer_hand = deal!(deck)
+
+
 
   player_stash = {}
   player_stash[PLAYER] = player_hand
   player_stash[DEALER] = dealer_hand
 
-  display_hands(player_stash)
+  display_hands(player_stash, modified_hand)
+
 
   if !busted?(player_hand) || !busted(dealer_hand)
     loop do
@@ -105,25 +115,26 @@ def start_game(deck, score_card)
         player_hand << deal!(deck, 1).fetch(0)
 
         clear_screen
-        display_hands(player_stash)
+        display_hands(player_stash, modified_hand)
       end
       break if response.downcase == STAY || busted?(player_hand)
     end
 
+    modified_hand = false
+
     loop do
       break if busted?(player_hand) || busted?(dealer_hand)
-      if calculate_cards(dealer_hand) < 17
+      if calculate_cards(dealer_hand) < DEALER_LIMIT
         dealer_hand << deal!(deck, 1).fetch(0)
 
         clear_screen
-        display_hands(player_stash)
+        display_hands(player_stash, modified_hand)
         sleep 1
         break if busted?(dealer_hand)
-
       else
         break
-       end
       end
+    end
   end
 
   update_score_card(score_card, player_hand, dealer_hand)
@@ -144,53 +155,40 @@ end
 
 def display_scores(hand_stash)
   print "Score: "
-  hand_stash.each do | key, value |
-    print "Player: #{calculate_cards(value)} " if key == PLAYER
-    puts " Dealer: #{calculate_cards(value)}" if key == DEALER
-  end
+  print "Player: #{calculate_cards(hand_stash[PLAYER])} "
+  puts " Dealer: #{calculate_cards(hand_stash[DEALER])}"
 end
 
 def get_results(score_card)
-  result =
-  score_card.select do | key, value |
+  score_card.select do |_, value|
     value != EMPTY
   end.flatten
-  result
 end
 
-def display_hands(stash)
-  stash.each do | key, value |
-    display_dealer_hand(value, modified = true) if key == DEALER
+def display_hands(stash, modified)
+  stash.each do |key, value|
+    display_dealer_hand(value, modified) if key == DEALER
     display_player_hand(value) if key == PLAYER
   end
 end
 
 def announce_game_status(game_status, player)
-  if game_status == :BUSTED
+  case game_status
+  when :BUSTED
     puts "#{player} #{messages('game_end_busted')}".red
-  end
-  if game_status == :WINNER
+  when :WINNER
     puts "#{player} #{messages('game_end_won')}".green
-  end
-  if game_status == :DRAW
+  when :DRAW
     puts messages("game_end_draw").cyan
   end
 end
 
 def compare_hands(hand_a, hand_b)
-  result = 0
-  if calculate_cards(hand_a) > calculate_cards(hand_b )
-    result = 2
-  elsif calculate_cards(hand_a) < calculate_cards(hand_b )
-    result = -1
-  elsif calculate_cards(hand_a) == calculate_cards(hand_b )
-     # they are equal
-  end
-  result
+  calculate_cards(hand_a) <=> calculate_cards(hand_b)
 end
 
 def busted?(hand)
-  calculate_cards(hand) > TWENTY_ONE
+  calculate_cards(hand) > GAME_LIMIT
 end
 
 def draw?(hand_a, hand_b)
@@ -198,7 +196,7 @@ def draw?(hand_a, hand_b)
 end
 
 def get_winner(hand_a, hand_b)
-  return PLAYER if compare_hands(hand_a, hand_b) == 2
+  return PLAYER if compare_hands(hand_a, hand_b) == 1
   return DEALER if compare_hands(hand_a, hand_b) == -1
 end
 
@@ -227,13 +225,13 @@ def get_glyph(type)
 end
 
 def display_hand(hand, player)
-  puts sprintf("%20s", "#{player} Hand")
+  puts format("%20s", "#{player} Hand")
   puts '     ---------------------'
   hand.each do |card|
-    puts sprintf("%20s", "#{card[1]} of #{ get_glyph(card[0])}'s")
+    puts format("%20s", "#{card[1]} of #{get_glyph(card[0])}'s")
   end
   puts
-  puts  sprintf("%18s", "Total: #{calculate_cards(hand)}") if player != 'Dealer'
+  puts format("%18s", "Total: #{calculate_cards(hand)}") if player != 'Dealer'
   puts
 end
 
@@ -248,15 +246,23 @@ def request_user_hit_or_stay
   input
 end
 
+def play_again?
+  input = ''
+  loop do
+    puts messages("play_again")
+    input = gets.chomp
+    return input if ['y', 'n'].include?(input)
+    puts messages("incorrect_quit_command")
+  end
+end
+
 loop do
   deck = initialize_deck(SUITS, CARD_VALUES)
-  score_card = {busted: EMPTY, winner: EMPTY, draw: EMPTY}
+  score_card = { busted: EMPTY, winner: EMPTY, draw: EMPTY }
   display_welcome
-  start_game(deck, score_card)
+  play_game(deck, score_card)
 
-  puts messages("play_again")
-  input = gets.chomp
-  break unless input.downcase.start_with?('y')
+  break if play_again? == 'n'
 end
 
 puts messages("thanks_for_playing")
