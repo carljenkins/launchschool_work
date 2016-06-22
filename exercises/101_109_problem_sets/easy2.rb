@@ -92,10 +92,44 @@
 # puts "------------------------"
 
 
-#Odd Numbers
-puts "Odd Numbers
-puts "------------------------"
+# #Odd Numbers
+# puts "Odd Numbers"
+# puts "------------------------"
+# (1..99).each {|n| puts n if n % 2 == 1}
+#
+# puts
+# puts "------------------------"
+#
+# #Odd Numbers - bonus
+# puts "Odd Numbers bonus"
+# puts "------------------------"
+# num=1
+# loop do
+#   puts num if num.odd?
+#   num += 1
+#   break if (num >= 100)
+# end
+#
+# puts
+# puts "------------------------"
 
+# #Even Numbers
+# puts "Even Numbers"
+# puts "------------------------"
+# num=1
+# loop do
+#   puts num if num.even?
+#   num += 1
+#   break if (num >= 100)
+# end
+#
+# puts
+# puts "------------------------"
+
+
+#Sum or product of consecutive integers
+puts "Sum or product of consecutive integers"
+puts "------------------------"
 
 puts
 puts "------------------------"
