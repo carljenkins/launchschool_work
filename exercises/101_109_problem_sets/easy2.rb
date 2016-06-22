@@ -54,20 +54,48 @@
 
 
 
-#When will I retire?
-puts "When will I retire"
+# #When will I retire?
+# puts "When will I retire"
+# puts "------------------------"
+# puts "What is your age?"
+# age=gets.chomp.to_i
+#
+# puts "What age would you like to retire?"
+# retire_age=gets.chomp.to_i
+#
+# years_to_retirement=retire_age - age
+# current_year=Time.now.year
+#
+#
+# puts "It's #{current_year}. You will reture in #{current_year + years_to_retirement}"
+# puts "You only have #{years_to_retirement} years left!"
+# puts
+# puts "------------------------"
+
+
+# #Getting a user
+# puts "Getting a user"
+# puts "------------------------"
+# puts "Hi, what's your name?"
+# name = gets.chomp
+# greeting=""
+#
+# if name.include?("!")
+#   name.delete!("!")
+#   greeting="Hello #{name}. why are we screaming?".upcase
+# else
+#    greeting="Hello #{name}."
+# end
+#
+# puts greeting
+# puts
+# puts "------------------------"
+
+
+#Odd Numbers
+puts "Odd Numbers
 puts "------------------------"
-puts "What is your age?"
-age=gets.chomp.to_i
-
-puts "What age would you like to retire?"
-retire_age=gets.chomp.to_i
-
-years_to_retirement=retire_age - age
-current_year=Time.now.year
 
 
-puts "It's #{current_year}. You will reture in #{current_year + years_to_retirement}"
-puts "You only have #{years_to_retirement} years left!"
 puts
 puts "------------------------"
