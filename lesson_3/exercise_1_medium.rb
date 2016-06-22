@@ -105,8 +105,8 @@ end
 
 #Question 8
 #To mimic the titleize method in Rails we coudl use something like this.
-title = "this is the title to my story"
-p title.split(' ').each{|word| word.capitalize!}.join(' ')
+# title = "this is the title to my story"
+# p title.split(' ').each{|word| word.capitalize!}.join(' ')
 
 #Question 9
 # I had to look at the solution. I was close! but I still peeked.d
@@ -120,14 +120,13 @@ munsters = {
 
 
 munsters.each do |key,value|
+  p value
     case value['age']
     when 0..17
       value.merge!({"age_group" => 'kid'})
-    when 18..64
+    when 18..65
       value.merge!({"age_group" => 'adult'})
-    when 65..1000
+    else
       value.merge!({"age_group" => 'senior'})
     end
 end
-
-p munsters
