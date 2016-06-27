@@ -126,7 +126,7 @@
 # puts
 # puts "------------------------"
 
-# 
+#
 # #Sum or product of consecutive integers
 # puts "Sum or product of consecutive integers"
 # puts "------------------------"
@@ -173,6 +173,10 @@
 puts "String assignment"
 puts "------------------------"
 
+str = "test"
+str2 = str
+str = "no test"
+puts str, str2
 
 
 
