@@ -126,10 +126,55 @@
 # puts
 # puts "------------------------"
 
+# 
+# #Sum or product of consecutive integers
+# puts "Sum or product of consecutive integers"
+# puts "------------------------"
+#
+# puts "Please enter an number greater than 0."
+# input=gets.chomp
+#
+# loop do
+#    if (input.to_i <= 0)
+#      puts "Please enter a number greater than 0"
+#      input=gets.chomp
+#    end
+#   break if input.to_i > 0
+# end
+#
+# puts "Enter s to compute the sum and p to compute the product."
+# computation=gets.chomp
+# loop do
+#    if !["s","p"].include?(computation)
+#      puts "Please enter either s or p"
+#      computation=gets.chomp
+#    end
+#   break if ["s","p"].include?(computation)
+# end
+#
+# if computation == "s"
+#   sum=0
+#   1.upto(input.to_i) do |e|
+#     sum+=e
+#   end
+#   puts "The sum of integers bettween 1 and #{input} is #{sum}"
+# else
+#   prod=1
+#   1.upto(input.to_i) do |e|
+#     prod = e * prod
+#   end
+#   puts "The product of integers bettween 1 and #{input} is #{prod} "
+# end
+#
+# puts
+# puts "------------------------"
 
-#Sum or product of consecutive integers
-puts "Sum or product of consecutive integers"
+#String assignment
+puts "String assignment"
 puts "------------------------"
+
+
+
 
 puts
 puts "------------------------"
