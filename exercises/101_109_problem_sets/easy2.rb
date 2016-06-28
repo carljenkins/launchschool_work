@@ -169,16 +169,28 @@
 # puts
 # puts "------------------------"
 
-#String assignment
-puts "String assignment"
-puts "------------------------"
+# #String assignment
+# puts "String assignment"
+# puts "------------------------"
+#
+# str = "test"
+# str2 = str
+# str = "no test"
+# puts str, str2
+#
+# puts
+# puts "------------------------"
 
-str = "test"
-str2 = str
-str = "no test"
-puts str, str2
 
-
-
-puts
-puts "------------------------"
+# #Mutation
+# puts "Mutation"
+# puts "------------------------"
+#
+# array1 = %w(Moe Larry Curly Chemp Harpo Chico Groucho Zeppo)
+# array2 = []
+# array1.each { |value| array2 << value }
+# array1.each { |value| value.upcase! if value.start_with?('C') }
+# puts array2
+#
+# puts
+# puts "------------------------"
