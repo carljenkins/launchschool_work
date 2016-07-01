@@ -72,9 +72,93 @@ require 'pry'
 # # puts
 # # puts "------------------------"
 
-# #Counting the number of characters
-# puts "Counting the number of characters"
+# # #Counting the number of characters
+# # puts "Counting the number of characters"
+# # puts "------------------------"
+# puts "Please enter a word or multiple words."
+# input=gets.chomp
+#
+# puts "There are #{input.split('').count} characters in #{input}"
+# # puts
+# # puts "------------------------"
+
+#
+# # #Mutiplying two numbers
+# # puts "Mutiplying two numbers"
+# # puts "------------------------"
+#
+# def multiply(a, b)
+#   a * b
+# end
+# #
+# puts multiply(5.2, 3)
+#
+# # puts
+# # puts "------------------------"
+#
+
+
+# #Squaring an argument
+# puts "Squaring an argument"
 # puts "------------------------"
+# def square(n)
+#   multiply(n,n)
+# end
+#
+# puts square(5)
+# puts square(-8)
+# puts
+# puts "------------------------"
+
+
+
+# # #Exclusive OR
+# # puts "Exclusive OR"
+# # puts "------------------------"
+#
+# def xor?(a, b)
+#   return true if a && !b
+#   return true if b && !a
+#   false
+# end
+#
+# puts xor?(5.even?, 4.even?)
+# puts xor?(5.odd?, 4.odd?)
+# puts xor?(5.odd?, 4.even?)
+# puts xor?(5.even?, 4.odd?)
+#
+# # puts
+# # puts "------------------------"
+
+
+
+
+# #Odd Lists
+# puts "Odd Lists"
+# puts "------------------------"
+
+# def oddities(arry)
+#   result=[]
+#   arry.each_with_index do |k,i|
+#     result << k if i % 2 == 0
+#   end
+#   result
+# end
+#
+# p oddities([2, 3, 4, 5, 6])
+# p oddities(['abc', 'def'])
+# p oddities([123])
+# p oddities([])
+
+# puts
+# puts "------------------------"
+
+
+
+# #Palindromic Strings Part 1
+# puts "Palindromic Strings Part 1"
+# puts "------------------------"
+
 
 # puts
 # puts "------------------------"
