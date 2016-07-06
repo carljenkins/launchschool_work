@@ -159,6 +159,73 @@ require 'pry'
 # puts "Palindromic Strings Part 1"
 # puts "------------------------"
 
+# #Or use Stirng#reverse method
+# def reverse_it(str)
+#   str.split('').inject([]){|a,b| a.unshift(b)}.join
+# end
+#
+# def palindrome?(str)
+#   str == reverse_it(str)
+# end
+#
+# puts palindrome?('madam')# == true
+# puts palindrome?('Madam')# == false          # (case matters)
+# puts palindrome?("madam i'm adam")# == false # (all characters matter)
+# puts palindrome?('356653')# == true
 
 # puts
 # puts "------------------------"
+
+
+
+
+# # #Palindromic Strings Part 2
+# # puts "Palindromic Strings Part 2"
+# # puts "------------------------"
+#
+# def is_palindrome?(str)
+#   str == str.reverse
+# end
+#
+# def real_palindrome?(str)
+#   cleaned=str.downcase.delete("^a-z0-9")
+#   is_palindrome?(cleaned)
+#
+# end
+#
+# puts real_palindrome?('madam') #== true
+# puts real_palindrome?('Madam') #== true           # (case does not matter)
+# puts real_palindrome?("Madam, I'm Adam") #== true # (only alphanumerics matter)
+# puts real_palindrome?('356653') #== true
+# puts real_palindrome?('356a653')# == true
+# puts real_palindrome?('123ab321')# == false
+#
+# # puts
+# # puts "------------------------"
+
+
+
+# # #Palindromic Numbers
+# # puts "Palindromic Numbers"
+# # puts "------------------------"
+
+# def palindromic_number?(nums)
+#  nums.to_s.reverse == nums.to_s
+# end
+#
+#
+#
+#
+# puts palindromic_number?(34543)  #== true
+# puts palindromic_number?(123210) # == false
+# puts palindromic_number?(22 )    # == true
+# puts palindromic_number?(5)      # == true
+# # puts
+# # puts "------------------------"
+
+
+
+
+
+
+
