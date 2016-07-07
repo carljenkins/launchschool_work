@@ -1,3 +1,4 @@
+require 'pry'
 # #Short long short
 # puts "Short long short"
 # puts "------------------------"
@@ -60,7 +61,7 @@
 # puts "------------------------"
 #
 # def leap_year?(year)
-#   
+#
 #   #is leap year if divisible by 4 unless it's also divisible by 100.
 #   #then it's not a leap year unless it's also divisible by 400
 #
@@ -149,6 +150,30 @@
 puts "Running Totals"
 puts "------------------------"
 
+def running_total(arr)
+  total = 0
+  ret_arr = []
+  arr.each_with_index do |e,i|
+    #binding.pry
+    if (i == 0)
+      total += e
+      ret_arr << total
+      #binding.pry
+    else
+      #binding.pry
+      total += e
+      #binding.pry
+      ret_arr << total
+      #binding.pry
+    end
+  end
+  ret_arr
+end
+
+
+p running_total([2, 5, 13])# == [2, 7, 20]
+p running_total([14, 11, 7, 15, 20]) #== [14, 25, 32, 47, 67]
+p running_total([3]) #== [3]
+p running_total([])#   == []
 puts
 puts "------------------------"
-
