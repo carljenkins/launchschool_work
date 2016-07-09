@@ -146,34 +146,263 @@ require 'pry'
 
 
 
-#Running Totals
-puts "Running Totals"
+# #Running Totals
+# puts "Running Totals"
+# puts "------------------------"
+
+# def running_total(arr)
+#   total = 0
+#   ret_arr = []
+#   arr.each_with_index do |e,i|
+#     #binding.pry
+#     if (i == 0)
+#       total += e
+#       ret_arr << total
+#       #binding.pry
+#     else
+#       #binding.pry
+#       total += e
+#       #binding.pry
+#       ret_arr << total
+#       #binding.pry
+#     end
+#   end
+#   ret_arr
+# end
+
+
+# p running_total([2, 5, 13])# == [2, 7, 20]
+# p running_total([14, 11, 7, 15, 20]) #== [14, 25, 32, 47, 67]
+# p running_total([3]) #== [3]
+# p running_total([])#   == []
+# puts
+# puts "------------------------"
+
+
+# #Convert a String to a number
+# puts "Convert a String to a number"
+# puts "------------------------"
+
+
+# DIGITS = {"0" => 1, "1" => 1, "2" => 2, "3" => 3, "4" => 4 , "5" => 5, "6" => 6, "7" => 7, "8" => 8 , "9" => 9}
+
+# def string_to_integer(param)
+#   digits = param.chars.map {|e|  DIGITS[e] }
+  
+#   value = 0
+#   digit = digits.each {| n |  value = value * 10 + n   }
+  
+#   value
+# end
+
+# string_to_signed_integer('4321') #== 4321
+# string_to_signed_integer('570') #== 570
+# string_to_signed_integer('100') #== 100
+# puts
+# puts "------------------------"
+
+
+
+# #Convert a String to a signed number
+# puts "Convert a String to a signed number"
+# puts "------------------------"
+
+
+
+# DIGITS = {"0" => 0, "1" => 1, "2" => 2, "3" => 3, "4" => 4 , "5" => 5, "6" => 6, "7" => 7, "8" => 8 , "9" => 9}
+
+# def string_to_integer(param)
+#   digits = param.chars.map {|e|  DIGITS[e] }
+  
+#   value = 0
+#   digit = digits.each {| n |  value = value * 10 + n   }
+  
+#   value
+# end
+
+# def string_to_signed_integer(param)
+#   case param[0]
+#   when '-' then -string_to_integer(param[1..-1])
+#   when '+' then string_to_integer(param[1..-1])
+#   else string_to_integer(param)
+#   end
+# end
+
+# p string_to_signed_integer('4321') #== 4321
+# p string_to_signed_integer('-570') #== -570
+# p string_to_signed_integer('+100') #== 100
+
+# puts
+# puts "------------------------"
+
+
+
+
+
+
+# #Convert a String to a signed number
+# puts "Convert a String to a signed number"
+# puts "------------------------"
+
+
+
+# DIGITS = {"0" => 0, "1" => 1, "2" => 2, "3" => 3, "4" => 4 , "5" => 5, "6" => 6, "7" => 7, "8" => 8 , "9" => 9}
+
+# def string_to_integer(param)
+#   digits = param.chars.map {|e|  DIGITS[e] }
+  
+#   value = 0
+#   digit = digits.each {| n |  value = value * 10 + n   }
+  
+#   value
+# end
+
+# def string_to_signed_integer(param)
+#   case param[0]
+#   when '-' then -string_to_integer(param[1..-1])
+#   when '+' then string_to_integer(param[1..-1])
+#   else string_to_integer(param)
+#   end
+# end
+
+# p string_to_signed_integer('4321') #== 4321
+# p string_to_signed_integer('-570') #== -570
+# p string_to_signed_integer('+100') #== 100
+
+# puts
+# puts "------------------------"
+
+
+
+
+
+
+
+
+
+# #Convert number to a String
+# puts "Convert number to a String"
+# puts "------------------------"
+
+# DIGITS = {"0" => 0, "1" => 1, "2" => 2, "3" => 3, "4" => 4 , "5" => 5, "6" => 6, "7" => 7, "8" => 8 , "9" => 9}
+
+# def integer_to_string(param)
+ 
+#   result = []
+#   i = param
+#   while i > 0
+#     digit = i % 10
+#     i /= 10
+#     result.unshift(DIGITS.key(digit)) 
+#   end
+# result.join
+# end
+
+# p integer_to_string(4321) #== '4321'
+# p integer_to_string(0)# == '0'
+# p integer_to_string(5000) #= '5000'
+
+# puts
+# puts "------------------------"
+
+
+
+
+# #Convert number to a String
+# puts "Convert number to a String"
+# puts "------------------------"
+
+# DIGITS = {"0" => 0, "1" => 1, "2" => 2, "3" => 3, "4" => 4 , "5" => 5, "6" => 6, "7" => 7, "8" => 8 , "9" => 9}
+
+# def integer_to_string(param)
+ 
+#   result = []
+#   i = param
+#   while i > 0
+#     digit = i % 10
+#     i /= 10
+#     result.unshift(DIGITS.key(digit)) 
+#   end
+# result.join
+# end
+
+# p integer_to_string(4321) #== '4321'
+# p integer_to_string(0)# == '0'
+# p integer_to_string(5000) #= '5000'
+
+# puts
+# puts "------------------------"
+
+
+
+
+# #Convert a Signed Number to a String!
+# puts "Convert a Signed Number to a String!"
+# puts "------------------------"
+
+# DIGITS = {"0" => 0, "1" => 1, "2" => 2, "3" => 3, "4" => 4 , "5" => 5, "6" => 6, "7" => 7, "8" => 8 , "9" => 9}
+
+# def integer_to_string(param)
+ 
+#   result = []
+#   i = param
+#   # binding.pry
+#   while i > 0
+#     digit = i % 10
+#     i /= 10
+#     result.unshift(DIGITS.key(digit)) 
+#   end
+#   result << DIGITS.key(param) if param == 0
+#   ret_string = result.join
+#   ret_string
+# # binding.pry
+# end
+
+
+# def signed_integer_to_string(param)
+#   case param <=> 0
+#   when +1 then  "+#{integer_to_string(param)}"
+#   when -1 then "-#{integer_to_string(-param)}"
+#   else          integer_to_string(param)
+#   end
+# end
+
+# p signed_integer_to_string(4321) #== '+4321'
+# p signed_integer_to_string(-123) #== '-123'
+# p signed_integer_to_string(0) #== '0'
+
+# puts
+# puts "------------------------"
+
+
+
+
+
+# #Ascii String value
+# puts "Ascii String value"
+# puts "------------------------"
+
+# def ascii_value(param)
+#   total = 0
+#   param.chars.each {|c| total += c.ord   }
+#   total
+# end
+
+# p ascii_value('Four score')# == 984
+# p ascii_value('Launch School') #== 1251
+# p ascii_value('a') #== 97
+# p ascii_value('')#== 0
+
+# puts
+# puts "------------------------"
+
+
+
+#After midnight part 1
+puts "After midnight part 1"
 puts "------------------------"
 
-def running_total(arr)
-  total = 0
-  ret_arr = []
-  arr.each_with_index do |e,i|
-    #binding.pry
-    if (i == 0)
-      total += e
-      ret_arr << total
-      #binding.pry
-    else
-      #binding.pry
-      total += e
-      #binding.pry
-      ret_arr << total
-      #binding.pry
-    end
-  end
-  ret_arr
-end
 
 
-p running_total([2, 5, 13])# == [2, 7, 20]
-p running_total([14, 11, 7, 15, 20]) #== [14, 25, 32, 47, 67]
-p running_total([3]) #== [3]
-p running_total([])#   == []
 puts
 puts "------------------------"
