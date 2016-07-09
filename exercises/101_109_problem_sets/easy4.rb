@@ -398,11 +398,66 @@ require 'pry'
 
 
 
-#After midnight part 1
-puts "After midnight part 1"
+# #After midnight part 1
+# puts "After midnight part 1"
+# puts "------------------------"
+
+# def time_of_day(minutes)
+
+# end
+
+# time_of_day(0) #== "00:00"
+# time_of_day(-3) #== "23:57"
+# time_of_day(35) #== "00:35"
+# time_of_day(-1437)# == "00:03"
+# time_of_day(3000) #== "02:00"
+# time_of_day(800) #== "13:20"
+# time_of_day(-4231) #== "01:29"
+
+# puts
+# puts "------------------------"
+
+
+
+
+
+
+# #Letter Swap
+# puts "Letter Swap"
+# puts "------------------------"
+
+
+# def swap(str)
+#   ret_wrds = 
+#     str.split(' ').map do |wrd|
+#       hold = wrd[-1]
+#       wrd[-1] = wrd[0]
+#       wrd[0] = hold
+#       wrd
+#   end
+#   ret_wrds.join(' ')
+# end
+
+# p swap('Oh what a wonderful day it is') #== 'hO thaw a londerfuw yad ti si'
+# p swap('Abcde') #== 'ebcdA'
+# p swap('a') #== 'a'
+
+# puts
+# puts "------------------------"
+
+
+
+
+
+#Clean up the words
+puts "Clean up the words"
 puts "------------------------"
 
+def cleanup(str)
+  str.gsub(/[^a-zA-Z0-9_]+/, ' ') 
+end
 
+p cleanup("---what's my +*& line?") #== ' what s my line '
 
 puts
 puts "------------------------"
