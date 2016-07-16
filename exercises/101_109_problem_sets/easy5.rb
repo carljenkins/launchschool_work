@@ -85,21 +85,81 @@
 # puts "------------------------"
 
 
+#
+# #Letter Counter (Part 1)
+# puts "Letter Counter (Part 1)"
+# puts "------------------------"
+#
+#
+# def word_sizes(words)
+#   words_cnt= Hash.new(0)
+#   words.split.each do |wrd|
+#     words_cnt[wrd.size] += 1
+#   end
+#   words_cnt.sort.to_h
+# end
+#
+# p word_sizes('Four score and seven.') #== { 3 => 1, 4 => 1, 5 => 1, 6 => 1 }
+# p word_sizes('Hey diddle diddle, the cat and the fiddle!') #== { 3 => 5, 6 => 1, 7 => 2 }
+# p word_sizes("What's up doc?") #== { 6 => 1, 2 => 1, 4 => 1 }
+# p word_sizes('') #== {}
+#
+#
+# puts
+# puts "------------------------"
 
-#Letter Counter (Part 1)
-puts "Letter Counter (Part 1)"
+
+
+
+# #Letter Counter (Part 2)
+# puts "Letter Counter (Part 2)"
+# puts "------------------------"
+#
+#
+# def remove_non_words(param)
+#   param.gsub(/[^[:alpha:]]+/, '')
+# end
+#
+# def word_sizes(words)
+#   words_cnt= Hash.new(0)
+#   words.split.each do |wrd|
+#     words_cnt[remove_non_words(wrd).size] += 1
+#   end
+#   words_cnt.sort.to_h
+# end
+#
+# p word_sizes('Four score and seven.') #== { 3 => 1, 4 => 1, 5 => 1, 6 => 1 }
+# p word_sizes('Hey diddle diddle, the cat and the fiddle!') #== { 3 => 5, 6 => 1, 7 => 2 }
+# p word_sizes("What's up doc?") #== { 6 => 1, 2 => 1, 4 => 1 }
+# p word_sizes('') #== {}
+#
+#
+# puts
+# puts "------------------------"
+
+
+
+#Alphabetical Numbers
+puts "Alphabetical Numbers"
 puts "------------------------"
 
+ENGLISH_WORDS = {"zero" => 0, "one" => 1, "two" => 2, "three" => 3, "four" => 4, "five" => 5, "six" => 6,
+                "seven" => 7, "eight" => 8, "nine" => 9, "ten" => 10, "eleven" => 11, "tweleve" => 12, "thirteen" => 13,
+                "fourteen" => 14, "fifteen" => 15, "sixteen" => 16, "seventeen" => 17, "eighteen" => 18, "nineteen" => 19}
 
-def word_sizes(words)
-
+def alphabetic_number_sort(nums)
+   found = {}
+   nums.each do |n| #search through the array passed in don't want to assume it would always be 0..19
+      if ENGLISH_WORDS.value?(n) #Do we have the value?
+        k,v = ENGLISH_WORDS.rassoc(n) # if yes then extract the k,v pair
+        found[k] = v   #assing the key value to the found hash
+      end
+   end
+  found.sort_by { |word, num| word}.to_h.values #sory the found items by the word (key) then convert to hash and return the values
 end
 
 
-word_sizes('Four score and seven.') #== { 3 => 1, 4 => 1, 5 => 1, 6 => 1 }
-word_sizes('Hey diddle diddle, the cat and the fiddle!') #== { 3 => 5, 6 => 1, 7 => 2 }
-word_sizes("What's up doc?") #== { 6 => 1, 2 => 1, 4 => 1 }
-word_sizes('') #== {}
+p alphabetic_number_sort((0..19).to_a)
 
-puts
-puts "------------------------"
+# puts
+# puts "------------------------"
