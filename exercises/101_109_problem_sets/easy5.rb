@@ -183,3 +183,29 @@
 #
 # # puts
 # # puts "------------------------"
+
+
+# #Bannerizer
+# # puts "Bannerizer"
+# # puts "------------------------"
+#
+#
+# def print_in_box(str)
+#   width = (str.size * 2) / 4
+#   top = '+' << '-' * str.size * 2 << '+'
+#   bottom = '+' << '-' * str.size * 2 << '+'
+#
+#   puts top
+#   puts '|' << ' ' * width << str << ' ' * width << '|'
+#   puts bottom
+# end
+#
+#
+# print_in_box('To boldly go where no one has gone before.')
+# print_in_box('')
+# print_in_box('I am testing')
+# # puts
+# # puts "------------------------"
+
+
+
