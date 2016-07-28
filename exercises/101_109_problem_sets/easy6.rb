@@ -142,24 +142,39 @@
 # puts "------------------------"
 
 
+#
+# #Does my list include this?
+# puts "Does my list include this?"
+# puts "------------------------"
+#
+# def include?(arr, e)
+#  !arr.keep_if {|x| x == e}.empty?
+# end
+#
+#
+# p include?([1,2,3,4,5], 3) #== true
+# p include?([1,2,3,4,5], 6) # == false
+# p include?([], 3) #== false
+# p include?([nil], nil) #== true
+# p include?([], nil)# == false
+#
+# puts "------------------------"
 
-#Does my list include this?
-puts "Does my list include this?"
+
+
+#Right triangles
+puts "Right triangles"
 puts "------------------------"
 
-def include?(arr, e)
- !arr.keep_if {|x| x == e}.empty?
+def triangle(num)
+  stars = 1
+  while stars <= num
+    puts sprintf("%#{num}s", "*" * stars)
+    stars += 1
+  end
 end
 
 
-p include?([1,2,3,4,5], 3) #== true
-p include?([1,2,3,4,5], 6) # == false
-p include?([], 3) #== false
-p include?([nil], nil) #== true
-p include?([], nil)# == false
-
+triangle(5)
+triangle(9)
 puts "------------------------"
-
-
-
-
