@@ -104,7 +104,7 @@ end
 #
 
 #Question 8
-#To mimic the titleize method in Rails we coudl use something like this.
+#To mimic the titleize method in Rails we could use something like this.
 # title = "this is the title to my story"
 # p title.split(' ').each{|word| word.capitalize!}.join(' ')
 
