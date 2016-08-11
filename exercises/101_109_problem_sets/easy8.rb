@@ -92,26 +92,24 @@
 # p double_consonants('') #== ""
 
 
-#  def fizzbuzz(a1, a2)
-#    result = []
-#    a1.upto(a2) do |n|
-#      if (n % 3 == 0) && (n % 5 == 0)
-#        result << "FizzBuzz"
-#      elsif n % 3 == 0
-#        result << "Fizz"
-#      elsif n % 5 == 0
-#        result << "Buzz"
-#      else
-#        result << n
-#
-#      end
-#
-#    end
-#
-#    result.join(", ")
-#  end
-#
-# p fizzbuzz( 1, 20)p "Why hello there\nThis is a string"
+def fizzbuzz(a1, a2)
+  result = []
+  a1.upto(a2) do |n|
+    if (n % 3 == 0) && (n % 5 == 0)
+      result << "FizzBuzz"
+    elsif n % 3 == 0
+      result << "Fizz"
+    elsif n % 5 == 0
+      result << "Buzz"
+    else
+      result << n
+    end
+  end
+   result.join(", ")
+ end
+
+p fizzbuzz( 1, 20)
+
 
 
 # Iloveruby
@@ -147,8 +145,3 @@
 #
 #
 # process_file(File.read("my_text.txt"))
-
-
-
-
-
