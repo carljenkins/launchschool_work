@@ -1,8 +1,8 @@
+# frozen_string_literal: true
 require_relative 'player'
 require_relative 'move'
 
 class Computer < Player
-
   def initialize
     set_name
   end
@@ -12,7 +12,7 @@ class Computer < Player
   end
 
   def set_name
-    self.name = ['Hal 2000', 'Novac', 'Colossus', 'WOPR','Answertron 2000'].sample
+    self.name =
+      ['Hal 2000', 'Novac', 'Colossus', 'WOPR', 'Answertron 2000'].sample
   end
-
 end

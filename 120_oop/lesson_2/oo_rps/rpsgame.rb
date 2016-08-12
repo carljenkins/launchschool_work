@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative 'player'
 require_relative 'messages'
 require_relative 'human'
@@ -18,19 +19,18 @@ class RPSGame
     loop do
       display_play_again_message
       answer = gets.chomp
-      break if ['y','n'].include? answer.downcase
+      break if ['y', 'n'].include? answer.downcase
       display_y_or_n
     end
     return true if answer == 'y'
-    return false
   end
 
   def play
     display_welcome_message
-    # self.human.set_name
     loop do
-      self.human.choose
-      self.computer.choose
+      human.choose
+      computer.choose
+      display_moves
       display_winner
       break unless play_again?
     end

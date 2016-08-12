@@ -1,13 +1,8 @@
+# frozen_string_literal: true
 require 'yaml'
-
 module Messages
-
   LANGUAGE = 'en'
   MESSAGES = YAML.load_file('rps_game_messages.yml')
-
-  def initialize
-
-  end
 
   def messages(message, lang = 'en')
     MESSAGES[lang][message]
@@ -45,15 +40,20 @@ module Messages
     puts messages('name_invalid')
   end
 
-  def display_winner
+  def display_moves
     puts "#{computer.name} chose #{computer.move}"
     puts "#{human.name} chose #{human.move}"
+    puts
+  end
+
+  def display_winner
     if human.move > computer.move
-      puts "Awesome, you won!"
+      puts messages('human_won')
     elsif human.move == computer.move
-      puts "It is a tie!"
+      puts messages('tie')
     else
-      puts "The computer won!"
+      puts messages('computer_won')
+        .gsub('computer', computer.name)
     end
   end
 end

@@ -7,3 +7,6 @@ en:
   y_or_n: Please enter y or n
   request_name: What's your name?
   name_invalid: Sorry, you must input a name.
+  human_won: Awesome, you won!
+  computer_won: computer won!
+  tie: It is a tie!

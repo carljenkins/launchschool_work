@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative 'messages'
 require_relative 'move'
 require_relative 'player'
@@ -6,19 +7,14 @@ class Human < Player
   include Messages
 
   def set_name
-    binding.pry
     n = ""
     loop do
-      binding.pry
       display_request_for_name
       n = gets.chomp
-      binding.pry
       break unless n.empty?
       display_name_invalid
     end
-    binding.pry
     self.name = n
-    binding.pry
   end
 
   def choose

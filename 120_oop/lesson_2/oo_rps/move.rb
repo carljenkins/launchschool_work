@@ -1,8 +1,9 @@
+# frozen_string_literal: true
 class Move
   include Comparable
 
   attr_accessor :value
-  VALUES = ['rock', 'paper', 'scissors']
+  VALUES = ['rock', 'paper', 'scissors'].freeze
 
   def initialize(move_value)
     self.value = move_value
@@ -13,11 +14,11 @@ class Move
   # +1  greater than
   def <=>(other)
     return nil unless other.is_a?(self.class)
-    if (rock? && other.scissors? ||
-        paper? && other.rock?    ||
-        scissors? && other.paper? )
+    if rock? && other.scissors? ||
+       paper? && other.rock?    ||
+       scissors? && other.paper?
       1
-    elsif self.value == other.value
+    elsif value == other.value
       0
     else
       -1
@@ -25,18 +26,18 @@ class Move
   end
 
   def rock?
-    self.value == 'rock'
+    value == 'rock'
   end
 
   def paper?
-    self.value == 'paper'
+    value == 'paper'
   end
 
   def scissors?
-    self.value == 'scissors'
+    value == 'scissors'
   end
 
   def to_s
-    self.value
+    value
   end
 end
