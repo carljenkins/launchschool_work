@@ -40,10 +40,16 @@ module Messages
     puts messages('name_invalid')
   end
 
+  def display_score
+    puts 
+    puts "Score:   "
+    print sprintf("%-7s", human.name + " " +  human.score.to_s )
+    puts sprintf("%15s", computer.name + " " +  computer.score.to_s )
+  end
+
   def display_moves
     puts "#{computer.name} chose #{computer.move}"
     puts "#{human.name} chose #{human.move}"
-    puts
   end
 
   def display_winner

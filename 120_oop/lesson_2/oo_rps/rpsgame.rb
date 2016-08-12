@@ -9,6 +9,8 @@ class RPSGame
   include Messages
   attr_accessor :human, :computer
 
+  WINNING_SCORE = 10
+
   def initialize
     @human = Human.new
     @computer = Computer.new
@@ -25,13 +27,41 @@ class RPSGame
     return true if answer == 'y'
   end
 
+  def assign_scores
+    if human.move > computer.move
+      human.score += 1
+    elsif computer.move > human.move
+      computer.score += 1
+    end
+  end
+
+  def winner?
+    human.score == WINNING_SCORE ||
+      computer.score == WINNING_SCORE
+  end
+
+  def take_turns
+    human.choose
+    computer.choose
+  end
+
+  def start
+    take_turns
+    assign_scores
+    display_moves
+    display_winner
+    display_score
+    sleep 3
+    system 'clear'
+  end
+
   def play
     display_welcome_message
     loop do
-      human.choose
-      computer.choose
-      display_moves
-      display_winner
+      loop do
+      start
+      break if winner?
+    end
       break unless play_again?
     end
     display_goodbye_message

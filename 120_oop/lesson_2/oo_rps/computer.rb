@@ -3,10 +3,6 @@ require_relative 'player'
 require_relative 'move'
 
 class Computer < Player
-  def initialize
-    set_name
-  end
-
   def choose
     self.move = Move.new(Move::VALUES.sample)
   end
