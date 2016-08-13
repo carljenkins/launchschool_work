@@ -1,7 +1,7 @@
 en:
   welcome: Welcome to Rock, Paper, Scissors!
   goodbye: Thanks for playing Rock, Paper, Scissors!
-  make_choice: Please make your choice. [rock, paper, scissors]
+  make_choice: Please make your choice. [rock, paper, scissors, lizard, spock]
   try_again: That is not a valid choice. Please try again.
   play_again: Would you like to play again (y/n)?
   y_or_n: Please enter y or n
