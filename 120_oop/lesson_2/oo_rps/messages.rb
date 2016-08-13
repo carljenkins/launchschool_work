@@ -41,15 +41,36 @@ module Messages
   end
 
   def display_score
-    puts 
+    puts
     puts "Score:   "
-    print sprintf("%-7s", human.name + " " +  human.score.to_s )
-    puts sprintf("%15s", computer.name + " " +  computer.score.to_s )
+    print sprintf("%-7s", human.name + " " + human.score.to_s)
+    puts sprintf("%15s", computer.name + " " + computer.score.to_s)
   end
 
   def display_moves
     puts "#{computer.name} chose #{computer.move}"
     puts "#{human.name} chose #{human.move}"
+  end
+
+  def display_move_history
+    show_human_history
+    show_computer_history
+  end
+
+  def show_computer_history
+    puts
+    puts "#{computer.name} history: "
+    computer.history.each do |k, v|
+      puts "#{k.capitalize} #{v.join(' ')}"
+    end
+  end
+
+  def show_human_history
+    puts
+    puts "#{human.name} history: "
+    human.history.each do |k, v|
+      puts "#{k.capitalize} #{v.join(' ')}"
+    end
   end
 
   def display_winner

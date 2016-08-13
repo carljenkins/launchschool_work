@@ -7,13 +7,14 @@ require 'pry'
 
 class RPSGame
   include Messages
-  attr_accessor :human, :computer
+  attr_accessor :human, :computer, :round_count
 
-  WINNING_SCORE = 10
+  WINNING_SCORE = 3
 
   def initialize
     @human = Human.new
     @computer = Computer.new
+    @round_count = 0
   end
 
   def play_again?
@@ -24,7 +25,18 @@ class RPSGame
       break if ['y', 'n'].include? answer.downcase
       display_y_or_n
     end
+    if answer == 'y'
+      @round_count += 1
+      human.score = 0
+      computer.score = 0
+      initialize_history
+    end
     return true if answer == 'y'
+  end
+
+  def initialize_history
+    human.history['round' + @round_count.to_s] = []
+    computer.history['round' + @round_count.to_s] = []
   end
 
   def assign_scores
@@ -41,8 +53,10 @@ class RPSGame
   end
 
   def take_turns
-    human.choose
-    computer.choose
+    move = human.choose
+    human.history['round' + round_count.to_s] << move
+    move = computer.choose
+    computer.history['round' + round_count.to_s] << move
   end
 
   def start
@@ -56,14 +70,17 @@ class RPSGame
   end
 
   def play
+    @round_count += 1
+    initialize_history
     display_welcome_message
     loop do
       loop do
-      start
-      break if winner?
-    end
+        start
+        break if winner?
+      end
       break unless play_again?
     end
+    display_move_history
     display_goodbye_message
   end
 end
