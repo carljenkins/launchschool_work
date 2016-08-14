@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+# Copyright (c) 2016 Carl Jenkins
 # frozen_string_literal: true
 class Move
   include Comparable
@@ -9,9 +11,6 @@ class Move
     self.value = move_value
   end
 
-  # -1  less than
-  # 0   equal to
-  # +1  greater than
   def <=>(other)
     return nil unless other.is_a?(self.class)
     if scissors_wins?(other) ||

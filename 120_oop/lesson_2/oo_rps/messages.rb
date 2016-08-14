@@ -1,3 +1,5 @@
+#!/usr/bin/env ruby
+# Copyright (c) 2016 Carl Jenkins
 # frozen_string_literal: true
 require 'yaml'
 module Messages
@@ -43,8 +45,8 @@ module Messages
   def display_score
     puts
     puts "Score:   "
-    print sprintf("%-7s", human.name + " " + human.score.to_s)
-    puts sprintf("%15s", computer.name + " " + computer.score.to_s)
+    print sprintf("%-20s", human.name + " " + human.score.to_s)
+    puts sprintf("%20s", computer.name + " " + computer.score.to_s)
   end
 
   def display_moves
