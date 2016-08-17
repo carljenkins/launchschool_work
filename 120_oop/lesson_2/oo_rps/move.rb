@@ -7,48 +7,13 @@ class Move
   attr_accessor :value
   VALUES = ['rock', 'paper', 'scissors', 'lizard', 'spock'].freeze
 
-  def initialize(move_value)
-    self.value = move_value
-  end
-
-  def <=>(other)
-    return nil unless other.is_a?(self.class)
-    if scissors_wins?(other) ||
-       spock_wins?(other)    ||
-       rock_wins?(other)     ||
-       paper_wins?(other)    ||
-       lizard_wins?(other)
-      1
-    elsif value == other.value
-      0
-    else
-      -1
-    end
-  end
-
-  def scissors_wins?(other)
-    scissors? && other.paper? ||
-      scissors? && other.spock?
-  end
-
-  def spock_wins?(other)
-    spock? && other.scissors? ||
-      spock? && other.rock?
-  end
-
-  def rock_wins?(other)
-    rock? && other.scissors? ||
-      rock? && other.lizard?
-  end
-
-  def paper_wins?(other)
-    paper? && other.rock? ||
-      paper? && other.spock?
-  end
-
-  def lizard_wins?(other)
-    lizard? && other.spock? ||
-      lizard? && other.paper?
+  def self.create_move(type)
+    { 'rock' => Rock,
+      'paper' => Paper,
+      'scissors' => Scissors,
+      'lizard' => Lizard,
+      'spock' => Spock
+    }[type].new
   end
 
   def rock?
@@ -73,5 +38,119 @@ class Move
 
   def to_s
     value
+  end
+end
+
+
+class Rock < Move
+  include Comparable
+
+  def initialize
+    @value = 'rock'
+  end
+
+  def <=>(other)
+    if other.is_a?(Scissors.class) ||
+       other.is_a?(Lizard.class)
+      1
+    elsif other.class == self.class
+      0
+    else
+      -1
+    end
+  end
+
+  def to_s
+    self.value
+  end
+end
+
+class Spock < Move
+  include Comparable
+
+  def initialize
+    @value = 'spock'
+  end
+
+  def <=>(other)
+    if other.is_a?(Rock.class) ||
+       other.is_a?(Scissors.class)
+      1
+    elsif other.class == self.class
+      0
+    else
+      -1
+    end
+  end
+
+  def to_s
+    self.value
+  end
+end
+
+class Lizard < Move
+  include Comparable
+  def initialize
+    @value = 'lizard'
+  end
+
+  def <=>(other)
+    if other.is_a?(Paper.class) ||
+       other.is_a?(Spock.class)
+      1
+    elsif other.class == self.class
+      0
+    else
+      -1
+    end
+  end
+
+  def to_s
+    self.value
+  end
+end
+
+class Scissors < Move
+  include Comparable
+
+   def initialize
+     @value = 'scissors'
+   end
+
+   def <=>(other)
+     if other.is_a?(Paper.class) ||
+        other.is_a?(Spock.class)
+       1
+     elsif other.class == self.class
+       0
+     else
+       -1
+     end
+   end
+
+   def to_s
+     self.value
+   end
+end
+
+class Paper < Move
+  include Comparable
+  def initialize
+    @value = 'paper'
+  end
+
+  def <=>(other)
+    if other.is_a?(Rock.class) ||
+       other.is_a?(Spock.class)
+      1
+    elsif other.class == self.class
+      0
+    else
+      -1
+    end
+  end
+
+  def to_s
+    self.value
   end
 end

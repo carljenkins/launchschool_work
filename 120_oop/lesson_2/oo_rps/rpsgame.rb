@@ -42,11 +42,15 @@ class RPSGame
   end
 
   def assign_scores
+    require 'pry'; binding.pry
     if human.move > computer.move
+      require 'pry'; binding.pry
       human.score += 1
     elsif computer.move > human.move
+      partition { |e|  }
       computer.score += 1
     end
+    require 'pry'; binding.pry
   end
 
   def winner?

@@ -27,6 +27,6 @@ class Human < Player
       break if Move::VALUES.include?(choice.downcase)
       display_try_again
     end
-     self.move = Move.new(choice)
+    self.move = Move.create_move(choice)
   end
 end
