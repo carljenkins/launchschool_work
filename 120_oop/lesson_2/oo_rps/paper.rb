@@ -10,7 +10,7 @@ class Paper < Move
     @value = 'paper'
   end
 
-  def >(other)
+  def <=>(other)
     if other.is_a?(Rock) ||
        other.is_a?(Spock)
       1
