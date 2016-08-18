@@ -15,7 +15,6 @@ class Computer < Player
 
   def choose
     weighted_move = find_weighted_move(@name)
-    require 'pry'; binding.pry
     @move = if weighted_move
               Move.create_move(weighted_move)
             else
@@ -24,7 +23,7 @@ class Computer < Player
   end
 
   def set_name
-    @name = 'Colossus'
-      # ['Hal 2000', 'Novac', 'Colossus', 'WOPR', 'Answertron 2000'].sample
+    @name =
+      ['Hal 2000', 'Novac', 'Colossus', 'WOPR', 'Answertron 2000'].sample
   end
 end

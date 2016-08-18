@@ -6,14 +6,13 @@ require_relative 'paper'
 require_relative 'move'
 
 class Lizard < Move
-  include Comparable
   def initialize
     @value = 'lizard'
   end
 
-  def >(other)
-    if other.is_a?(Paper.class) ||
-       other.is_a?(Spock.class)
+  def <=>(other)
+    if other.is_a?(Paper) ||
+       other.is_a?(Spock)
       1
     elsif other.class == self.class
       0

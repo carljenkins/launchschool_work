@@ -41,17 +41,14 @@ class Move
   end
 end
 
-
 class Rock < Move
-  include Comparable
-
   def initialize
     @value = 'rock'
   end
 
   def <=>(other)
-    if other.is_a?(Scissors.class) ||
-       other.is_a?(Lizard.class)
+    if other.is_a?(Scissors) ||
+       other.is_a?(Lizard)
       1
     elsif other.class == self.class
       0
@@ -66,15 +63,13 @@ class Rock < Move
 end
 
 class Spock < Move
-  include Comparable
-
   def initialize
     @value = 'spock'
   end
 
   def <=>(other)
-    if other.is_a?(Rock.class) ||
-       other.is_a?(Scissors.class)
+    if other.is_a?(Rock) ||
+       other.is_a?(Scissors)
       1
     elsif other.class == self.class
       0
@@ -95,10 +90,10 @@ class Lizard < Move
   end
 
   def <=>(other)
-    if other.is_a?(Paper.class) ||
-       other.is_a?(Spock.class)
+    if other.is_a?(Paper) ||
+       other.is_a?(Spock)
       1
-    elsif other.class == self.class
+    elsif other.is_a? Lizard
       0
     else
       -1
@@ -111,15 +106,13 @@ class Lizard < Move
 end
 
 class Scissors < Move
-  include Comparable
-
    def initialize
      @value = 'scissors'
    end
 
    def <=>(other)
-     if other.is_a?(Paper.class) ||
-        other.is_a?(Spock.class)
+     if other.is_a?(Paper) ||
+        other.is_a?(Spock)
        1
      elsif other.class == self.class
        0
@@ -134,14 +127,13 @@ class Scissors < Move
 end
 
 class Paper < Move
-  include Comparable
   def initialize
     @value = 'paper'
   end
 
   def <=>(other)
-    if other.is_a?(Rock.class) ||
-       other.is_a?(Spock.class)
+    if other.is_a?(Rock) ||
+       other.is_a?(Spock)
       1
     elsif other.class == self.class
       0
