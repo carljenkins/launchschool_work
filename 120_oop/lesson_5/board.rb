@@ -23,7 +23,7 @@ class Board
     squares[key]
   end
 
-  def set_square_at(square, marker)
+  def []=(square, marker)
     squares[square].marker = marker
   end
 

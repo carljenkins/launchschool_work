@@ -16,6 +16,8 @@ class TTTGame
     @human = Human.new
   end
 
+  private
+
   def get_player_info
     get_player_name
     get_player_marker
@@ -60,12 +62,12 @@ class TTTGame
 
   def human_turn
     square = human.move(board)
-    board.set_square_at(square, human.marker)
+    board[square] =  human.marker
   end
 
   def computer_turn
     square = computer.move(board)
-    board.set_square_at(square, computer.marker)
+    board[square] = computer.marker
   end
 
   def start_game
@@ -91,6 +93,7 @@ class TTTGame
     response == 'y'
   end
 
+  public
   def play
       clear
       display_welcome_message
