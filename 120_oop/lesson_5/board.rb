@@ -2,7 +2,6 @@
 # Copyright (c) 2016 Carl Jenkins
 # frozen_string_literal: true
 require_relative 'square'
-require 'pry'
 class Board
   WINNING_LINES =
     [[1, 2, 3], [4, 5, 6], [7, 8, 9]] +

@@ -5,7 +5,6 @@ require_relative 'messages'
 require_relative 'board'
 require_relative 'computer'
 require_relative 'human'
-require 'pry'
 class TTTGame
   include Messages
   attr_accessor :board, :human, :computer, :current_marker
