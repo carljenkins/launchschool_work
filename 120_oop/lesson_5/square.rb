@@ -3,9 +3,9 @@
 # frozen_string_literal: true
 class Square
   attr_accessor :marker
-  INITIAL_MARKER = ' '
-  X_MARKER = 'X'
-  MARKERS = %w[O # $ & ^ % * ! H]
+  INITIAL_MARKER = ' '.freeze
+  X_MARKER = 'X'.freeze
+  MARKERS = %w(O # $ & ^ % * ! H).freeze
   def initialize(marker = INITIAL_MARKER)
     @marker = marker
   end

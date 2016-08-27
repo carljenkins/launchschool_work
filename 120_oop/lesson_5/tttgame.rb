@@ -8,12 +8,13 @@ require_relative 'human'
 require 'pry'
 class TTTGame
   include Messages
-  attr_accessor :board, :human, :computer
+  attr_accessor :board, :human, :computer, :current_marker
 
   def initialize
     @board = Board.new
     @computer = Computer.new
     @human = Human.new
+    @current_marker = nil
   end
 
   private
@@ -21,6 +22,7 @@ class TTTGame
   def get_player_info
     get_player_name
     get_player_marker
+    self.current_marker = human.marker
   end
 
   def get_player_name
@@ -28,7 +30,7 @@ class TTTGame
     loop do
       display_name_request
       name = gets.chomp
-      break if !name.empty?
+      break unless name.empty?
       display_must_enter_name
     end
     self.human.name = name
@@ -43,11 +45,11 @@ class TTTGame
       break if Square::MARKERS.include?(marker)
       display_marker_invalid
     end
-    self.human.marker = marker
+    human.marker = marker
   end
 
   def display_player_info
-    puts "#{human.name} is a #{human.marker}    #{computer.name} is a #{computer.marker}"
+    puts "#{human.name} is a #{human.marker}   #{computer.name} is a #{computer.marker}"
   end
 
   def clear
@@ -60,24 +62,33 @@ class TTTGame
     board.display
   end
 
-  def human_turn
+  def human_moves
     square = human.move(board)
-    board[square] =  human.marker
+    board[square] = human.marker
   end
 
-  def computer_turn
+  def computer_moves
     square = computer.move(board)
     board[square] = computer.marker
   end
 
+  def human_turn?
+    current_marker == human.marker
+  end
+
+  def make_moves
+    if human_turn?
+      human_moves
+      self.current_marker = computer.marker
+    else
+      computer_moves
+      self.current_marker = human.marker
+    end
+  end
+
   def start_game
     loop do
-      human_turn
-      display_game_table
-      break if  board.full? || board.someone_won?
-      puts "Strategizing...."
-
-      computer_turn
+      make_moves
       display_game_table
       break if board.full? || board.someone_won?
     end
@@ -86,25 +97,26 @@ class TTTGame
   def play_again?
     response = nil
     loop do
-      puts "Would you like to play again? (y,n)"
+      puts 'Would you like to play again? (y,n)'
       response = gets.chomp
-      break if ['y','n'].include?(response.downcase)
+      break if %w[y, n].include?(response.downcase)
     end
     response == 'y'
   end
 
   public
+
   def play
+    clear
+    display_welcome_message
+    get_player_info
+    loop do
+      display_game_table
+      start_game
+      display_result
+      break unless play_again?
       clear
-      display_welcome_message
-      get_player_info
-      loop do
-        display_game_table
-        start_game
-        display_result
-        break unless play_again?
-        clear
-        board.setup
+      board.setup
     end
     display_goodbye_message
   end

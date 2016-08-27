@@ -3,7 +3,7 @@
 # frozen_string_literal: true
 require 'YAML'
 module Messages
-  LANGUAGE = 'en'
+  LANGUAGE = 'en'.freeze
   MESSAGES = YAML.load_file('ttt_game_messages.yml')
 
   def messages(message, lang = 'en')
@@ -11,38 +11,36 @@ module Messages
   end
 
   def display_welcome_message
-    messages("welcome")
+    messages('welcome')
   end
 
   def display_goodbye_message
-    messages("goodbye")
+    messages('goodbye')
   end
 
   def display_name_request
-    messages("request_name")
+    messages('request_name')
   end
 
   def display_must_enter_name
-    messages("name_invalid")
+    messages('name_invalid')
   end
 
   def display_marker_request
-    messages("marker_request")
+    messages('marker_request')
   end
 
-
   def display_marker_invalid
-    messages("marker_invalid")
+    messages('marker_invalid')
   end
 
   def display_result
     if board.human_won?
-      messages("human_won")
+      messages('human_won')
     elsif board.computer_won?
-      messages("computer_won")
+      messages('computer_won')
     else
-      messages("tie")
+      messages('tie')
     end
-
   end
 end
