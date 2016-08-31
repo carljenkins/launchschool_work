@@ -3,7 +3,6 @@ require_relative 'square'
 require_relative 'board'
 
 module TTTGameStrategy
-	attr_accessor :enemy_marker
 
   def find_defensive_move(board)
     marker = determine_opponents_marker(board)
