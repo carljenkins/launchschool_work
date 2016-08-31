@@ -5,24 +5,24 @@ require_relative 'messages'
 require_relative 'board'
 require_relative 'computer'
 require_relative 'human'
+require 'pry'
 class TTTGame
   include Messages
-  attr_accessor :board, :human, :computer, :current_marker
+  attr_accessor :board, :human, :computer, :current_marker, :rounds_count, :first_run
+  
+  ROUNDS = 5
 
   def initialize
     @board = Board.new
     @computer = Computer.new
     @human = Human.new
     @current_marker = nil
+    @rounds_count = 0
+    @first_run = true
   end
 
   private
 
-  def get_player_info
-    get_player_name
-    get_player_marker
-    self.current_marker = human.marker
-  end
 
   def get_player_name
     name = nil
@@ -45,6 +45,7 @@ class TTTGame
       display_marker_invalid
     end
     human.marker = marker
+    self.current_marker = human.marker
   end
 
   def display_player_info
@@ -98,26 +99,60 @@ class TTTGame
     loop do
       puts 'Would you like to play again? (y,n)'
       response = gets.chomp
-      break if %w[y, n].include?(response.downcase)
+      break if ["y", "n"].include?(response.downcase)
     end
     response == 'y'
+  end
+
+  def evaluate_game
+    if board.human_won?
+      human.score += 1
+    else board.computer_won?
+      computer.score += 1
+    end
+    self.rounds_count += 1
+  end
+
+  def score_reset
+    human.score = 0
+    computer.score = 0
+  end
+
+  def initial_game_run
+    clear
+    display_welcome_message
+    get_player_name
+    self.first_run = false  
+  end
+
+  def board_setup(reset_score = false)
+    clear
+    board.setup
+    score_reset if reset_score
   end
 
   public
 
   def play
-    clear
-    display_welcome_message
-    get_player_info
     loop do
-      display_game_table
-      start_game
+      if self.first_run
+        initial_game_run
+      end
+      get_player_marker
+      loop do
+        display_game_table
+        start_game
+        evaluate_game
+        display_score_board
+        break if rounds_count == ROUNDS
+        sleep 3
+        board_setup
+      end  
       display_result
       break unless play_again?
-      clear
-      board.setup
+      board_setup(true)
     end
-    display_goodbye_message
+    display_goodbye_message  
   end
 end
 

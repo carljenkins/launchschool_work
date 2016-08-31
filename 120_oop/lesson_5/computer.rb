@@ -8,6 +8,7 @@ class Computer < Player
   def initialize(marker = Square::X_MARKER)
     set_name
     self.marker = marker
+    @score = 0
   end
 
   def set_name

@@ -43,4 +43,14 @@ module Messages
       messages('tie')
     end
   end
+
+  def display_score_board
+    puts "Current Score: "
+    puts "#{human.name}: #{human.score}  #{computer.name}:  #{computer.score}"
+    puts
+  end
+
+  def joinor(arr, sep = ', ', orclause='or ')
+    (arr * sep).insert(-2, orclause)
+  end
 end

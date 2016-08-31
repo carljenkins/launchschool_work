@@ -5,8 +5,13 @@ require_relative 'player'
 require_relative 'messages'
 class Human < Player
   include Messages
+
+  def initialize
+    @score = 0
+  end
+
   def move(board)
-    puts "Choose a square (#{board.empty_square_positions.join(', ')}):"
+    puts "Choose a square (#{joinor(board.empty_square_positions)}):"
     square = nil
     loop do
       square = gets.chomp.to_i
