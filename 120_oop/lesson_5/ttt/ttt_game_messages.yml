@@ -1,0 +1,14 @@
+en:
+  welcome: Welcome to Tic Tac Toe!
+  goodbye: Thanks for playing Tic Tac Toe!
+  try_again: That is not a valid choice. Please try again.
+  play_again: Would you like to play again (y/n)?
+  y_or_n: Please enter y or n
+  request_name: What should I call you?
+  name_invalid: Sorry, you must input a name.
+  human_won: Awesome, you won!
+  computer_won: computer won!
+  tie: It is a tie!
+  marker_request: Please choose a makrer.
+  marker_invalid: Sorry, that's not a valid choice.
+  board_full: The board is full!
