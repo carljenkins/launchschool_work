@@ -131,6 +131,13 @@ class TTTGame
     score_reset if reset_score
   end
 
+  def main_game_play
+    display_game_table
+    start_game
+    evaluate_game
+    display_score_board
+  end
+
   public
 
   def play
@@ -140,10 +147,7 @@ class TTTGame
       end
       get_player_marker
       loop do
-        display_game_table
-        start_game
-        evaluate_game
-        display_score_board
+        main_game_play
         break if rounds_count == ROUNDS
         sleep 3
         board_setup
