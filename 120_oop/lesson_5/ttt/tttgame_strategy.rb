@@ -1,4 +1,6 @@
-
+#!/usr/bin/env ruby
+# Copyright (c) 2016 Carl Jenkins
+# frozen_string_literal: true
 require_relative 'square'
 require_relative 'board'
 
@@ -14,7 +16,7 @@ module TTTGameStrategy
 		move
   end
 
-  private 
+  private  
 
   def find_empty_square_position(board, marker)
   	square = nil
