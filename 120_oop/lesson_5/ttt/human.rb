@@ -4,7 +4,7 @@
 require_relative 'player'
 require_relative 'messages'
 class Human < Player
-  include Messages
+  include TTT::Messages
 
   def initialize
     @score = 0

@@ -2,6 +2,7 @@
 # Copyright (c) 2016 Carl Jenkins
 # frozen_string_literal: true
 require 'YAML'
+module TTT
 module Messages
   LANGUAGE = 'en'.freeze
   MESSAGES = YAML.load_file('ttt_game_messages.yml')
@@ -53,4 +54,5 @@ module Messages
   def joinor(arr, sep = ', ', orclause='or ')
     (arr * sep).insert(-2, orclause)
   end
+end
 end

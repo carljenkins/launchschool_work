@@ -1,0 +1,10 @@
+en:
+  dealer: "Dealer:"
+  player: "Player:"
+  decision: Hmmm, should I hit or stay?
+  hit_or_stay: Would you like to hit or stay? (h,s)
+  tie: It's a tie!
+  dealer_won: Dealer won!
+  player_won: You won!
+  dealer_busted: Dealer busted!
+  player_busted: Player busted!

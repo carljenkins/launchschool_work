@@ -7,9 +7,9 @@ require_relative 'computer'
 require_relative 'human'
 require 'pry'
 class TTTGame
-  include Messages
+  include TTT::Messages
   attr_accessor :board, :human, :computer, :current_marker, :rounds_count, :first_run
-  
+
   ROUNDS = 5
 
   def initialize
@@ -122,7 +122,7 @@ class TTTGame
     clear
     display_welcome_message
     get_player_name
-    self.first_run = false  
+    self.first_run = false
   end
 
   def board_setup(reset_score = false)
@@ -151,12 +151,12 @@ class TTTGame
         break if rounds_count == ROUNDS
         sleep 3
         board_setup
-      end  
+      end
       display_result
       break unless play_again?
       board_setup(true)
     end
-    display_goodbye_message  
+    display_goodbye_message
   end
 end
 

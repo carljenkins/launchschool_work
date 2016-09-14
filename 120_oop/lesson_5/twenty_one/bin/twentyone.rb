@@ -1,8 +1,7 @@
 #!/usr/bin/env ruby
 # Copyright (c) 2016 Carl Jenkins
 # frozen_string_literal: true
-require_relative 'lib/game'
-
+require_relative '../lib/twentyone/game'
 
 options = {}
 
