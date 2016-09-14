@@ -110,7 +110,7 @@ module TwentyOne
       elsif dealer.busted?
         messages('dealer_busted')
       elsif player.busted?
-        messages('player_buted')
+        messages('player_busted')
       elsif player.total > dealer.total
         messages('player_won')
       elsif dealer.total > player.total
