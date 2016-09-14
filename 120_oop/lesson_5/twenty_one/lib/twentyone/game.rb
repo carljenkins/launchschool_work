@@ -92,7 +92,7 @@ module TwentyOne
         loop do
           show_cards
           break if dealer_out?
-          delay(messages('decision'))
+          progress_meter(messages('decision'))
           deal(:DEALER)
         end
         break if game_over? || dealer.stays?
@@ -118,9 +118,9 @@ module TwentyOne
       end
     end
 
-    def delay(msg)
+    def progress_meter(msg)
       print msg
-      25.times do
+      20.times do
         print '.'
         sleep(0.07)
       end
