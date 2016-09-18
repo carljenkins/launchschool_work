@@ -70,6 +70,10 @@ class TodoList
     @todos.fetch(idx)
   end
 
+  def done?
+    all_done.size == @todos.size
+  end
+
   def mark_done_at(idx)
     item_at(idx).done!
   end
@@ -133,6 +137,20 @@ class TodoList
     each{|todo| todo.undone! }
   end
 
+  def done!
+    @todos.each_index do |idx|
+      mark_done_at(idx)
+    end
+  end
+  
+  def remove_at(idx)
+    @todos.delete(item_at(idx))
+  end
+
+  def to_a
+      @todos
+  end
+
   def to_s
   text = "---- #{title} ----\n"
   text << @todos.map(&:to_s).join("\n")
@@ -141,20 +159,20 @@ end
 
 end
 
-
-todo1 = Todo.new("Buy milk")
-todo2 = Todo.new("Clean room")
-todo3 = Todo.new("Go to gym")
-
-list = TodoList.new("Today's Todos")
-list.add(todo1)
-list.add(todo2)
-list.add(todo3)
-
-puts list.find_by_title("Buy milk")
-
-puts list.all_not_done
-puts mark_done("Buy milk")
+#
+# todo1 = Todo.new("Buy milk")
+# todo2 = Todo.new("Clean room")
+# todo3 = Todo.new("Go to gym")
+#
+# list = TodoList.new("Today's Todos")
+# list.add(todo1)
+# list.add(todo2)
+# list.add(todo3)
+#
+# puts list.find_by_title("Buy milk")
+#
+# puts list.all_not_done
+# puts mark_done("Buy milk")
 
 
 # list.each do |todo|

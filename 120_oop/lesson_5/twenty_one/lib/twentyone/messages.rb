@@ -18,5 +18,9 @@ module TwentyOne
     def player_label(key, lang = 'en')
       MESSAGES[lang][key]
     end
+
+    def hands_label(key, lang = 'en')
+      MESSAGES[lang][key]
+    end
   end
 end

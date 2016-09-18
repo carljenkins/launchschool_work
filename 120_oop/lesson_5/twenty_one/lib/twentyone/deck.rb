@@ -18,14 +18,6 @@ module TwentyOne
       cards.pop
     end
 
-    def [](idx)
-      cards[idx]
-    end
-
-    def []=(idx, obj)
-      cards[idx] = obj
-    end
-
     def <<(card)
       cards.push card
     end

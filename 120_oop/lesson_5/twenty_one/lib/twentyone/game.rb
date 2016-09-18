@@ -27,7 +27,7 @@ module TwentyOne
 
     def show_cards
       clear_screen
-      puts format("%20s", "Current Hands")
+      puts format("%20s", hands_label('current_hands'))
       puts '   ---------------------'
       puts format("%1s", dealer_label('dealer'))
       puts format("%-40s", dealer.reveal)
@@ -80,41 +80,60 @@ module TwentyOne
       response
     end
 
+    def handle_player_turn
+      loop do
+        break if player.busted? || request_input == STAY
+          deal(:PLAYER)
+          show_cards
+      end
+    end
+
+    def handle_dealer_turn
+      loop do
+        show_cards
+        break if dealer_out?
+        progress_meter(messages('decision'))
+        deal(:DEALER)
+      end
+    end
     def take_turns
       loop do
-        loop do
-          break if player.busted? || request_input == STAY
-            deal(:PLAYER)
-            show_cards
-        end
+        handle_player_turn
         dealer.hide_card = false
         break if player.busted?
-        loop do
-          show_cards
-          break if dealer_out?
-          progress_meter(messages('decision'))
-          deal(:DEALER)
-        end
+        handle_dealer_turn
         break if game_over? || dealer.stays?
+      end
+    end
+
+    def display_winner
+      if player.has_twentyone?
+        messages('player_won')
+      elsif dealer.has_twentyone?
+        messages('dealer_won')
+      elsif player.total > dealer.total
+        messages('player_won')
+      elsif dealer.total > player.total
+        messages('dealer_won')
+      end
+    end
+
+    def display_busted
+      if dealer.busted?
+        messages('dealer_busted')
+      elsif player.busted?
+        messages('player_busted')
       end
     end
 
     def show_result
       show_cards
-      if dealer.total == player.total
+      if busted?
+        display_busted
+      elsif dealer.total == player.total
         messages('tie')
-      elsif player.has_twentyone?
-        messages('player_won')
-      elsif dealer.has_twentyone?
-        messages('dealer_won')
-      elsif dealer.busted?
-        messages('dealer_busted')
-      elsif player.busted?
-        messages('player_busted')
-      elsif player.total > dealer.total
-        messages('player_won')
-      elsif dealer.total > player.total
-        messages('dealer_won')
+      else
+        display_winner
       end
     end
 
