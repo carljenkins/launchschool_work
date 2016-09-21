@@ -1,15 +1,19 @@
 class Robot
   attr_accessor :name
-  @@used_names = []
+
+  @used_names = []
 
   def initialize
-    @name = ""
     @name = set_name
-    @@used_names << @name
+    Robot.used_names << @name
   end
 
   def self.used_names
-    @@used_names
+    @used_names
+  end
+
+  def used_names
+    self.class.used_names
   end
 
    def reset
