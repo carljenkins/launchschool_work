@@ -6,15 +6,14 @@ class Series
   end
 
   def slices(n)
-    slices = []
+    raise ArgumentError unless series.size >= n
+    result = []
+    arry_values = []
     for i in 0..series.size - 1 do
-      slices << series[ i,  n]
+      values = series[ i,  n]
+      arry_values << values.chars.to_a
     end
-    slices
+    arry_values.each{|a| result << a.map(&:to_i)}
+    result.delete_if{|a| a.count < n}
   end
-
 end
-
-
-s = Series.new('01234')
-p s.slices(2)
