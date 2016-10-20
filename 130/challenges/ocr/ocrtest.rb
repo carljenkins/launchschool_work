@@ -1,15 +1,13 @@
 require 'minitest/autorun'
 require_relative 'ocr_numbers'
-require "minitest/reporters"
-Minitest::Reporters.use!
 
 class OCRTest < Minitest::Test
   # rubocop:disable  Style/TrailingWhitespace
   def test_recognize_zero
     text = <<-NUMBER.chomp
- _
-| |
-|_|
+  _
+ | |
+ |_|
 
     NUMBER
     assert_equal '0', OCR.new(text).convert
@@ -19,8 +17,8 @@ class OCRTest < Minitest::Test
     skip
     text = <<-NUMBER.chomp
 
-  |
-  |
+ |
+ |
 
     NUMBER
     assert_equal '1', OCR.new(text).convert
@@ -29,9 +27,9 @@ class OCRTest < Minitest::Test
   def test_recognize_two
     skip
     text = <<-NUMBER.chomp
- _
- _|
-|_
+  _
+  _|
+ |_
 
     NUMBER
     assert_equal '2', OCR.new(text).convert
@@ -40,9 +38,9 @@ class OCRTest < Minitest::Test
   def test_recognize_three
     skip
     text = <<-NUMBER.chomp
- _
- _|
- _|
+  _
+  _|
+  _|
 
     NUMBER
     assert_equal '3', OCR.new(text).convert
@@ -52,8 +50,8 @@ class OCRTest < Minitest::Test
     skip
     text = <<-NUMBER.chomp
 
-|_|
-  |
+ |_|
+   |
 
     NUMBER
     assert_equal '4', OCR.new(text).convert
@@ -62,9 +60,9 @@ class OCRTest < Minitest::Test
   def test_recognize_five
     skip
     text = <<-NUMBER.chomp
- _
-|_
- _|
+  _
+ |_
+  _|
 
     NUMBER
     assert_equal '5', OCR.new(text).convert
@@ -73,9 +71,9 @@ class OCRTest < Minitest::Test
   def test_recognize_six
     skip
     text = <<-NUMBER.chomp
- _
-|_
-|_|
+  _
+ |_
+ |_|
 
     NUMBER
     assert_equal '6', OCR.new(text).convert
@@ -84,9 +82,9 @@ class OCRTest < Minitest::Test
   def test_recognize_seven
     skip
     text = <<-NUMBER.chomp
- _
-  |
-  |
+  _
+   |
+   |
 
     NUMBER
     assert_equal '7', OCR.new(text).convert
@@ -95,9 +93,9 @@ class OCRTest < Minitest::Test
   def test_recognize_eight
     skip
     text = <<-NUMBER.chomp
- _
-|_|
-|_|
+  _
+ |_|
+ |_|
 
     NUMBER
     assert_equal '8', OCR.new(text).convert
@@ -106,9 +104,9 @@ class OCRTest < Minitest::Test
   def test_recognize_nine
     skip
     text = <<-NUMBER.chomp
- _
-|_|
- _|
+  _
+ |_|
+  _|
 
     NUMBER
     assert_equal '9', OCR.new(text).convert
@@ -119,8 +117,8 @@ class OCRTest < Minitest::Test
     skip
     text = <<-NUMBER.chomp
 
-| |
-| |
+ | |
+ | |
 
     NUMBER
     assert_equal '?', OCR.new(text).convert
