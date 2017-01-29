@@ -1,0 +1,22 @@
+# calculator_messages.yml
+
+en: 
+  welcome: "Welcome to CLI calculator! Enter your name:"
+  valid_name: "Make sure to use a valid name."
+  add: 'Adding'
+  subtract: 'Subtracting'
+  multiply: 'Multiplying'
+  divide: 'Dividing'
+  first_number: "What's the first number?"
+  second_number: "What's the second number?"
+  invalid_number: "Hmm. that doesn't look like a valid number."
+  another_calc: "Do you want to perform another calculation? (Y to calculate again)."
+  operator_prompt: |
+    What operation would you like to perform?
+    1) add
+    2) subtract
+    3) multiply
+    4) divide
+es:
+  welcome: "Bienvenido a la calculadora! Entre su nombre:"
+  valid_name: "Asegúrese de entrar un nombre válido."
