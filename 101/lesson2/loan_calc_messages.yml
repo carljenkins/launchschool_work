@@ -1,0 +1,9 @@
+en:
+  welcome: "Welcome to the loan calculator. What's your name?"
+  invalid_name: "Please enter your name to proceed."
+  loan_amt: "Enter the loan amount."
+  apr: "Enter the APR. Use integers such as 4. (e.x. 4 = 4% APR ) "
+  loan_duration: "Enter the loan duration in months."
+  invalid_number: "Please enter a valid number."
+  payment_info: "Your monthly payment will be:"
+  another_calculation: "Would you like to perform another calculation? (Y to calculate again)"
