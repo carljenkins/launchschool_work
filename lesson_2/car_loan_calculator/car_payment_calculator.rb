@@ -78,6 +78,8 @@ loop do
   end
 end
 
+ 
+
 payment = calculate_payment(loan_amt, calc_monthly_interest(apr), duration)
 
 prompt(messages('monthly_payment').concat(" #{payment}"))
