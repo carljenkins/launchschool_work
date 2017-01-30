@@ -30,8 +30,8 @@ def monthly_interest_rate(apr)
 end
 
 def calculate_payment(loan_amt, mnthly_interest_rate, duration)
-  pyment = loan_amt * 
-    (mnthly_interest_rate / 
+  pyment = loan_amt *
+    (mnthly_interest_rate /
       (1 - ((1 + mnthly_interest_rate)** -duration)))
 
   pyment.round(2)
